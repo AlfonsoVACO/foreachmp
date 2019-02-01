@@ -1,0 +1,45 @@
+{
+    "mws98":{	
+        "ip":"10.184.50.215",	
+        "path":"C:\\cclog\\",	
+        "extension":".xml","finalextension":".xls",	
+        "toPath":"C:\\xml\\"
+    },
+    "mws82":{	
+        "ips":["10.184.50.66","10.184.50.67"],	
+        "path":"C:\\cclogs\\",	
+        "extension":".log",	
+        "toPath":["statsIS66","statsIS67"],	
+        "commands":["%fin(*.log)dotype\"%f\">>"],	
+        "archives":{
+            "IS":{		
+                "heads":["NodeAlias","DisplayName","Value","MaxValue","Free","Time"],
+                "alias":["IS_N1","IS_N2"],
+                "display":["JVMMemory","JVMThreads"]
+            },
+            "MWS":{
+                "heads":["NodeAlias","DisplayName","Valor","Commit","MaxValue","Time"],
+                "alias":["MWS_N1","MWS_N2"],
+                "memory":{
+                    "heads":["Time","Used","Committed","Max"],
+                    "static":["HealpMemoryUsage(Kb)","2.38Gb"]
+                },
+                "cpu":{
+                    "heads":["Time","CPUUsage"],
+                    "static":["CPUUsage(%)","80%"]
+                },
+                "threads":{
+                    "heads":["Time","Livethreads","Peak"],
+                    "static":["Threads(Unidad)"]
+                }
+            },
+            "onRegex":"dd/mm/yyyy hh:mm:ss",
+            "toRegex":"dd/mm/yyyy hh:mm",
+            "filter":"*:00:0*"	
+        }
+    },
+    "createDir":{	
+        "inDir":"C:\\Users\\6_Delta\\Documents\\AdministradorMapfre\\EntregableMensual\\MonitoreodeServicios\\",	
+        "extras":["wM82","wM98"]
+    }
+}

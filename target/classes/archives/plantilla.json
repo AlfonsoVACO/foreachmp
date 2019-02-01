@@ -1,0 +1,110 @@
+[{
+    "mws98": {
+	"ip": "10.184.50.215",
+	"user": "",
+	"pass": "",
+	"path": "C:\\cclogs\\",
+	"extension": "xml",
+	"toPath": "C:\\xml\\"
+    },
+    "mws82": {
+	"ips": ["10.184.50.66","10.184.50.67"],
+	"user": "",
+	"pass": "",
+	"path": "C:\\cclog\\",
+	"extension": "log",
+	"toPath": ["stats IS66","stats IS67"], // requiere inDir
+	"commands":[
+            "cd ", //${createDir.inDir+createDir.extras[0]+"\\"+mws82.toPath[0]}
+            "TYPE *.log > ", //IS_66-Dic-2018.txt
+            "cd ",
+            "TYPE *.log > "  //IS_67-Dic-2018.txt
+	],
+	"archives": {
+            "IS": {
+		"heads": ["Node Alias","Display Name","Value","Max Value","Free","Time"],
+                "alias": ["IS_N1","IS_N2"],
+                "display": ["JVM Memory","JVM Threads"]
+            },
+            "MWS": {
+                "heads": ["Node Alias","Display Name","Valor","Commit","Max Value","Time"],
+                "alias": ["MWS_N1","MWS_N2"],
+                "memory": {
+                    "heads": ["Time","Used","Committed","Max"],
+                    "static": ["Healp Memory Usage (Kb)","2.38 Gb"]//ABC->alias[]|static[0]|{B}|{C}|static[1]|{A}
+                },
+                "cpu": {
+                    "heads": ["Time","CPU Usage"],
+                    "static": ["CPU Usage (%)","80%"]//alias[]|static[0]|{B}|""|static[1]|{A}
+                },
+                "threads": {
+                    "heads" : ["Time","Live threads","Peak"],
+                    "static":["Threads (Unidad)"]//alias[]|static[0]|{B}|{C}|""|{A}
+                }
+            },
+            "onRegex":"dd/mm/yyyy hh:mm:ss",
+            "toRegex":"dd/mm/yyyy hh:mm",
+            "filter": "*:00:0*",
+            "finalnameArchs": "{{Entrada}}"
+	}
+    },
+    "createDir": {
+	"inDate": "01/01/2019",
+	"inDir": "C:\\Users\\erirodri\\Documents\\AdministradorMapfre\\Entregable Mensual\\Monitoreo de Servicios\\",
+	"clone": "{{EntradaMes}}", // combo -> txtanio
+	"nameDir": "{{EntradaMes}}", // combo -> txtanio
+	"nameArch": "Monitoreo_Servicios-wM98_Dic-18",
+	"extras": ["wM82","wM98"]
+    }
+}
+,
+{
+    "mws98": {
+	"ip": "10.184.50.215",
+	"path": "C:\\cclogs\\",
+	"extension": "xml",
+	"toPath": "C:\\xml\\"
+    },
+    "mws82": {
+	"ips": ["10.184.50.66","10.184.50.67"],
+	"path": "C:\\cclog\\",
+	"extension": "log",
+	"toPath": ["stats IS66","stats IS67"],
+	"commands":[
+            "cd ",
+            "TYPE *.log > ",
+            "cd ",
+            "TYPE *.log > "
+	],
+	"archives": {
+            "IS": {
+		"heads": ["Date","Time","JVMTotalMem","JVMFreeMem","CurrentThreads","MaxThreads"],
+                "alias": ["IS_N1","IS_N2"],
+                "display": ["JVM Memory","JVM Threads"]
+            },
+            "MWS": {
+                "heads": ["Node Alias","Display Name","Valor","Commit","Max Value","Time"],
+                "alias": ["MWS_N1","MWS_N2"],
+                "memory": {
+                    "heads": ["Time","Used","Committed","Max"],
+                    "static": ["Healp Memory Usage (Kb)","2.38 Gb"]
+                },
+                "cpu": {
+                    "heads": ["Time","CPU Usage"],
+                    "static": ["CPU Usage (%)","80%"]
+                },
+                "threads": {
+                    "heads" : ["Time","Live threads","Peak"],
+                    "static":["Threads (Unidad)"]
+                }
+            },
+            "onRegex":"dd/mm/yyyy hh:mm:ss",
+            "toRegex":"dd/mm/yyyy hh:mm",
+            "filter": "*:00:0*"
+	}
+    },
+    "createDir": {
+	"inDir": "C:\\Users\\erirodri\\Documents\\AdministradorMapfre\\Entregable Mensual\\Monitoreo de Servicios\\",
+	"extras": ["wM82","wM98"]
+    }
+}]

@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.Group?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<StackPane fx:id="stackTambah" prefHeight="327.0" prefWidth="248.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mycompany.foreach.controllers.LogController">
+    <children>
+        <StackPane fx:id="panelhide" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+            <children>
+                <Group>
+                    <children>
+                        <StackPane fx:id="loadStage" layoutX="347.0" layoutY="182.0" prefHeight="374.0" prefWidth="604.0" style="-fx-background-color: white; -fx-background-radius: 10; -fx-padding: 10; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.8), 10, 0, 0, 0);" AnchorPane.leftAnchor="358.0">
+                            <children>
+                                <StackPane fx:id="menuBaju" prefHeight="374.0" prefWidth="604.0" style="-fx-background-color: white;" StackPane.alignment="CENTER">
+                                    <children>
+                                        <VBox prefHeight="200.0" prefWidth="100.0">
+                                            <children>
+                                                <HBox prefHeight="55.0" prefWidth="584.0">
+                                                    <children>
+                                                        <Label fx:id="lblKodeBaju" prefHeight="30.0" prefWidth="117.0" textFill="#f50505">
+                                                            <font>
+                                                                <Font size="20.0" />
+                                                            </font>
+                                                        </Label>
+                                                    </children>
+                                                </HBox>
+                                                <HBox fx:id="hboxBaju" fillHeight="false" prefHeight="385.0" prefWidth="584.0" spacing="10.0">
+                                                    <children>
+                                                        <ListView fx:id="logList" prefHeight="368.0" prefWidth="584.0" />
+                                                    </children>
+                                                </HBox>
+                                                <!--<HBox prefHeight="100.0" prefWidth="200.0">
+                                                    <children>
+                                                        <Button fx:id="simpan" mnemonicParsing="false" onAction="#btnSimpan" prefHeight="25.0" prefWidth="135.0" styleClass="custem-button-input" stylesheets="@../styles/styles.css" text="Editar" textFill="WHITE" translateY="20.0">
+                                                            <font>
+                                                                <Font name="System Bold" size="12.0" />
+                                                            </font>
+                                                        </Button>
+                                                    </children>
+                                                </HBox>-->
+                                            </children>
+                                        </VBox>
+                                    </children>
+                                </StackPane>
+                            </children>
+                        </StackPane>
+                    </children>
+                </Group>
+            </children>
+        </StackPane>
+    </children>
+</StackPane>

@@ -1,0 +1,69 @@
+# Código desechado de jar
+```
+private void open(){
+    JFileChooser chooser = new JFileChooser(this.openFile);
+    ExampleFileFilter filter = new ExampleFileFilter();
+    filter.addExtension("txt");
+    filter.setDescription("txt extensions");
+    chooser.setFileFilter(filter);
+    int returnVal = chooser.showOpenDialog(new Frame());
+    if (returnVal == 0) {
+        this.openFile = chooser.getCurrentDirectory();
+        this.fname = (this.openFile.getAbsolutePath()
+                + File.separator + chooser.getSelectedFile().getName());
+        try {
+            this.openFrame = new OpenFrameContents(this.fname);
+            vecList = this.openFrame.getData();
+        } catch (Exception ex) {
+            Logger.getLogger(ex.getMessage());
+        }
+    }
+}
+
+private void save(ActionEvent event) {
+    JFileChooser chooser = new JFileChooser(this.openFile);
+
+    ExampleFileFilter filter = new ExampleFileFilter();
+    filter.addExtension("csv");
+    filter.setDescription("csv extensions");
+    chooser.setFileFilter(filter);
+    int returnVal = chooser.showSaveDialog(new Frame());
+    if (returnVal == 0) {
+        this.fname = (this.openFile.getAbsolutePath()
+            + File.separator + chooser.getSelectedFile().getName());
+        FilesOperations.writeCSVFile(vecList, this.fname);
+    }
+}
+
+private void leerDirectoriosStats() throws IOException {
+        Path dircclog = this.mwsod.getPath();
+        if (!dircclog.toFile().exists()) {
+            this.logs.add("El directorio cclogs no existe");
+            dircclog.toFile().mkdir();
+            this.logs.add("Creando directorio: cclogs");
+        } else {
+            FilenameFilter filter = new FilenameFilter() {
+                @Override
+                public boolean accept(File dir, String fileName) {
+                    return fileName.endsWith("log");
+                }
+            };
+            this.logs.add("Leyendo archivos .log en directorio cclog");
+            String[] fileList = dircclog.toFile().list(filter);
+            if (fileList.length <= 0) {
+                this.logs.add("No se encontraron archivos .log en esta ruta");
+            } else {
+                this.logs.add("Copiando .log a rutas especificas");
+            }
+            for (String path : fileList) {
+                File archivo = new File(path);
+                if (archivo.exists()) {
+                    File archiveclon = Paths.get(this.workspace + "\\wM82\\" + archivo.getName() + ".log").toFile();
+                    Files.copy(archivo.toPath(), archiveclon.toPath(), Constantes.COPY_OPTIONS);
+                } else {
+                    this.logs.add("Archivo no encontrado");
+                }
+            }
+        }
+    }
+```

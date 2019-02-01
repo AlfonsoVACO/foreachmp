@@ -1,0 +1,19 @@
+# Files pack
+*.jar
+*.zip
+*.war
+*.nar
+*.ear
+*.tar.gz
+
+# classes
+*.class
+
+# Virtual
+
+output/
+build/
+tarjet/
+*.DS_Store
+*.classpath
+*.project

@@ -22,7 +22,6 @@ import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 import java.util.stream.Stream;
-import org.controlsfx.control.Notifications;
 
 /**
  *
@@ -119,11 +118,7 @@ public class Util {
                 FxDialogs.showInformation(Constantes.TITLE, "Json eliminado");
             }
         } catch (IOException ex) {
-            Notifications
-                    .create()
-                    .title("Error")
-                    .text(ex.getMessage())
-                    .showError();
+            FxDialogs.showException("Error", ex.getMessage(), ex);
         }
     }
 

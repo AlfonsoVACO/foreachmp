@@ -21,7 +21,6 @@ import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import javafx.event.Event;
 import javafx.scene.control.Button;
-import org.controlsfx.control.Notifications;
 
 /**
  *
@@ -70,11 +69,9 @@ public class DataColumns {
                         "Lista de logs al procesar",
                         move.getLogs());
             } else {
-                Notifications
-                        .create()
-                        .title("Error")
-                        .text("El archivo ya no existe")
-                        .showError();
+                FxDialogs.showError(
+                        Constantes.TITLE,
+                        "El archivo ya no existe");
             }
         });
 
@@ -88,12 +85,9 @@ public class DataColumns {
                     DaoDataColumns.deleteDetail(id);
                     delete.setDisable(true);
                     execute.setDisable(true);
-                    Notifications
-                            .create()
-                            .title("Información")
-                            .text("El registro se eliminará de la tabla \n"
-                                    + "al generar otro reporte o reiniciar la app")
-                            .showInformation();
+                    FxDialogs.showInformation("Información", 
+                            "El registro se eliminará de la tabla \n"
+                                    + "al generar otro reporte o reiniciar la app");
                     Util.removeFile(nombre);
                 }
             } catch (SQLException | ClassNotFoundException ex) {

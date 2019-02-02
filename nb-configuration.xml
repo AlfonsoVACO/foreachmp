@@ -16,5 +16,6 @@ Any value defined here will override the pom.xml file value but is only applicab
         <netbeans.compile.on.save>none</netbeans.compile.on.save>
         <org-netbeans-modules-javascript2-requirejs.enabled>true</org-netbeans-modules-javascript2-requirejs.enabled>
         <org-netbeans-modules-javascript2-json.json_2e_comments>true</org-netbeans-modules-javascript2-json.json_2e_comments>
+        <netbeans.hint.jdkPlatform>java8201</netbeans.hint.jdkPlatform>
     </properties>
 </project-shared-configuration>

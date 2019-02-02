@@ -30,7 +30,6 @@ import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
-import org.controlsfx.control.Notifications;
 import org.json.simple.parser.ParseException;
 
 /**
@@ -52,8 +51,7 @@ public class LoginController implements Initializable {
             send = new SendInfoToClass();
             createTables();
         } catch (IOException | ParseException ex) {
-            Notifications.create().title("Error")
-                    .text(ex.getMessage()).showError();
+            FxDialogs.showException("Error", ex.getMessage(), ex);
             Thread closeprogram = new Thread(() -> {
                 exit();
             });
@@ -111,9 +109,7 @@ public class LoginController implements Initializable {
             st.close();
 
         } else {
-            Notifications.create().title(Constantes.TITLE)
-                    .text("Verifica tus datos")
-                    .showInformation();
+            FxDialogs.showInformation(Constantes.TITLE, "Verifica tus datos");
         }
     }
 

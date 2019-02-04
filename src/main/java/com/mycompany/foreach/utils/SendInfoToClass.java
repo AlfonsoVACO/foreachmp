@@ -31,8 +31,16 @@ public final class SendInfoToClass {
     private Mws98 mwsno ;
     private Mws82 mwsod;
     private GeneralInfo gral;
+    private File archivo;
+    private boolean notfound = false;
 
     public SendInfoToClass() throws IOException, FileNotFoundException, ParseException {
+        getJson();
+    }
+    
+    public SendInfoToClass(File archivo) throws IOException, FileNotFoundException, ParseException {
+        this.archivo = archivo;
+        this.notfound = true;
         getJson();
     }
 
@@ -49,7 +57,7 @@ public final class SendInfoToClass {
     }
 
     private File getFilePathJSON() {
-        return Paths.get(Constantes.PATH_JSON).toFile();
+        return notfound ? this.archivo : Paths.get(Constantes.PATH_JSON).toFile();
     }
 
     private void getJson() throws FileNotFoundException, IOException, ParseException {

@@ -245,9 +245,8 @@ public class FXMLController implements Initializable {
         fileChooser.setTitle("Buscar archivos a clonar");
 
         fileChooser.getExtensionFilters().addAll(
-                new FileChooser.ExtensionFilter("CSV", "*.csv"),
-                new FileChooser.ExtensionFilter("XLS", "*.xls"),
-                new FileChooser.ExtensionFilter("XLSX", "*.xlsx")
+                new FileChooser.ExtensionFilter("XLSX", "*.xlsx"),
+                new FileChooser.ExtensionFilter("XLS", "*.xls")
         );
         List<File> archives = fileChooser.showOpenMultipleDialog(null);
         if (archives != null && archives.isEmpty()) {

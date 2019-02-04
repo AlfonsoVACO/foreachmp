@@ -45,8 +45,12 @@ public class OperationsCMT extends SendInfoCMT {
     private final Path workspace66;
     private final Path workspace67;
 
-    private String display = "", maxuse = "";
-    private int id = 0;
+    List<String> listamemoryn1;
+    List<String> listamemoryn2;
+    List<String> listathreadsn1;
+    List<String> listathreadsn2;
+    List<String> listacpun1;
+    List<String> listacpun2;
 
     public OperationsCMT(Mws82 mwsod, GeneralInfo gralinfo, String workspace, String fileconfig) {
         super(Paths.get(fileconfig));
@@ -67,12 +71,37 @@ public class OperationsCMT extends SendInfoCMT {
     }
 
     private void getPaths() {
-        //System.out.println(mwsod.toString());
         mwsod.getArchives().getMwsis().forEach((primary) -> {
             if (primary.getType().toLowerCase().equals("mws")) {
                 getMWS(primary);
             }
         });
+    }
+
+    private void setInitialice(String name, String type) {
+        switch (type) {
+            case "cpu":
+                if (name.toLowerCase().contains("66")) {
+                    this.listacpun1 = new ArrayList<>();
+                } else {
+                    this.listacpun2 = new ArrayList<>();
+                }
+                break;
+            case "memory":
+                if (name.toLowerCase().contains("66")) {
+                    this.listamemoryn1 = new ArrayList<>();
+                } else {
+                    this.listamemoryn2 = new ArrayList<>();
+                }
+                break;
+            case "thread":
+                if (name.toLowerCase().contains("66")) {
+                    this.listathreadsn1 = new ArrayList<>();
+                } else {
+                    this.listathreadsn2 = new ArrayList<>();
+                }
+                break;
+        }
     }
 
     private void getMWS(MwsPrimary primary) {
@@ -88,11 +117,12 @@ public class OperationsCMT extends SendInfoCMT {
                             .get(path.getFileName().toFile()
                                     .getName().contains("66") ? 0 : 1);
                     if (path.getFileName().toFile().getName().toLowerCase().contains("cpu")) {
-
+                        setInitialice(path.getFileName().toFile().getName(), "cpu");
                     } else if (path.getFileName().toFile().getName().toLowerCase().contains("memory")) {
+                        setInitialice(path.getFileName().toFile().getName(), "memory");
                         readMemory(primary.getMemory(), path.toFile(), alias);
                     } else if (path.getFileName().toFile().getName().toLowerCase().contains("thread")) {
-
+                        setInitialice(path.getFileName().toFile().getName(), "thread");
                     }
                 }
             }
@@ -103,38 +133,16 @@ public class OperationsCMT extends SendInfoCMT {
 
     private void readMemory(MwsArchive archive, File archivo, String alias) throws FileNotFoundException {
         BufferedReader br = new BufferedReader(new FileReader(archivo));
-        List<String> listacont = new ArrayList<>();
         try {
             String line = br.readLine();
             while (null != line) {
                 StringBuilder stringbuild = new StringBuilder();
                 String[] fields = line.split(";");
                 if (fields[0].contains("time")) {
-                    String heads = Arrays.toString(archive.getHeads().toArray());
-                    stringbuild.append(heads.replace("[", "").replace("]", ""));
+                    stringbuild.append(getHeads(archive));
                 } else {
-                    String[] array = goToArray(archive.getStatics());
-                    /*System.out.println(Arrays.toString(archive.getStatics().toArray()));
-                    System.out.println(Arrays.toString(array));*/
-                    display = "";
-                    maxuse = "";
-                    id = 0;
-                    archive.getStatics().forEach(it -> {
-                        if (id == 0) {
-                            display = it;
-                        } else {
-                            maxuse = it;
-                        }
-                        id++;
-                    });
-                    stringbuild.append(alias).append(",");
-                    stringbuild.append(display).append(",");
-                    stringbuild.append(fields[1]).append(",");
-                    stringbuild.append(fields[2]).append(",");
-                    stringbuild.append(maxuse).append(",");
-                    stringbuild.append(fields[0]).append(",");
-                    listacont.add(stringbuild.toString());
-                    getDate(fields[0]);
+                    stringbuild.append(getBody(archive, fields, alias));
+                    //this.listacontn1.add(stringbuild.toString());
                 }
                 System.out.println(stringbuild.toString());
                 line = br.readLine();
@@ -151,8 +159,21 @@ public class OperationsCMT extends SendInfoCMT {
 
     }
 
-    private String[] goToArray(List<String> lststatic) {
-        return new String[]{lststatic.get(0), lststatic.get(1)};
+    private String getBody(MwsArchive archive, String[] fields, String alias) {
+        StringBuilder stringbuild = new StringBuilder();
+        stringbuild.append(alias).append(",");
+        stringbuild.append(archive.getStatics().get(0)).append(",");
+        stringbuild.append(fields[1]).append(",");
+        stringbuild.append(fields[2]).append(",");
+        stringbuild.append(archive.getStatics().get(1)).append(",");
+        stringbuild.append(fields[0]).append(",");
+        getDate(fields[0]);
+        return stringbuild.toString();
+    }
+
+    private String getHeads(MwsArchive archive) {
+        String heads = Arrays.toString(archive.getHeads().toArray());
+        return heads.replace("[", "").replace("]", "");
     }
 
     private void getDate(String fecha) {

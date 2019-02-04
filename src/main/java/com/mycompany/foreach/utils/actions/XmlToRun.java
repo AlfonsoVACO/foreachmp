@@ -29,6 +29,7 @@ public class XmlToRun {
     private final GeneralInfo gralinfo;
 
     private final Path path;
+    private String nomenclatura;
     private List<Path> archivos = null;
     private List<Path> archivosIS_N1 = null;
     private List<Path> archivosMWS_N1 = null;
@@ -37,14 +38,16 @@ public class XmlToRun {
     private final List<String> logs;
     private final List<String> lstarchfail;
     private final File workspace;
+    private int contafail = 1;
 
-    public XmlToRun(Mws98 mwsno, GeneralInfo gralinfo, File workspace) {
+    public XmlToRun(Mws98 mwsno, GeneralInfo gralinfo, File workspace, String nomenclatura) {
         this.mwsno = mwsno;
         this.workspace = workspace;
         this.gralinfo = gralinfo;
         this.path = mwsno.getPath();
         this.logs = new ArrayList<>();
         this.lstarchfail = new ArrayList<>();
+        this.nomenclatura = nomenclatura;
     }
 
     public List<String> executeXml() throws IOException {
@@ -93,8 +96,9 @@ public class XmlToRun {
             try {
                 nodo.add(desXML.leer(Files.readAllLines(pathisn1).toString(),
                         new Nodo(), pathisn1.getFileName()));
-                if(desXML.getLogs() != null && !"".equals(desXML.getLogs()))
+                if (desXML.getLogs() != null && !"".equals(desXML.getLogs())) {
                     this.logs.add(desXML.getLogs());
+                }
                 if (!desXML.getFilesFail().equals("")) {
                     this.lstarchfail.add(desXML.getFilesFail());
                 }
@@ -107,7 +111,9 @@ public class XmlToRun {
         if (!this.lstarchfail.isEmpty()) {
             this.logs.add("Hubo errores al leer archivo...");
             this.logs.add("Creando txt con archivos fallidos");
-            Util.makeFileFails(this.lstarchfail, this.gralinfo);
+            Util.makeFileFails(this.lstarchfail, this.gralinfo,
+                    this.nomenclatura, contafail);
+            contafail++;
         }
 
         moveXLStoWS();
@@ -117,7 +123,7 @@ public class XmlToRun {
         List<Path> lstnewPath = new ArrayList<>();
         this.archivos.stream().filter((patharch) -> (patharch.getFileName().toString().contains(type)
                 && patharch.getFileName().toString().contains(nodo))).forEachOrdered((patharch) -> {
-                    lstnewPath.add(patharch);
+            lstnewPath.add(patharch);
         });
         return lstnewPath.isEmpty() ? new ArrayList<>() : lstnewPath;
     }

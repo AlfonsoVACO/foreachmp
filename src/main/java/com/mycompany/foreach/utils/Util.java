@@ -15,12 +15,14 @@ import java.io.OutputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Locale;
 import java.util.stream.Stream;
 
 /**
@@ -77,14 +79,18 @@ public class Util {
         }
     }
 
-    public static void makeFileFails(List<String> lstfiles, GeneralInfo mwsno) throws IOException {
+    public static void makeFileFails(List<String> lstfiles, GeneralInfo mwsno,
+            String nomenclatura, int numfile) throws IOException {
         StringBuilder stringbuilder = new StringBuilder();
         stringbuilder.append(mwsno.getInDir())
+                .append(getMonth(nomenclatura))
+                .append("\\")
                 .append(mwsno.getExtras().get(1))
                 .append("\\")
                 .append(Constantes.ARCHIVES_FAILS)
                 .append("_")
                 .append(getDateString())
+                .append(numfile)
                 .append(".txt");
         System.out.println("File: " + stringbuilder.toString());
         try (BufferedWriter bufferedwritter = new BufferedWriter(
@@ -98,10 +104,17 @@ public class Util {
     }
 
     public static String getDateString() {
-        SimpleDateFormat simpledate
-                = new SimpleDateFormat(Constantes.FORMAT_YYYY_MM_DD);
-        simpledate.format(new Date());
-        return simpledate.toString();
+        String fechastr = null;
+        try {
+            Date fecha = new Date();
+            SimpleDateFormat simpledate
+                    = new SimpleDateFormat("dd/MM/yyyy hh:mm:ss",Locale.US);
+            simpledate.parse(fecha.toLocaleString());
+            fechastr = simpledate.toString();
+        } catch (ParseException ex) {
+            FxDialogs.showException("Error", ex.getMessage(), ex);
+        }
+        return fechastr != null ? fechastr : "";
     }
 
     public static Path getRutas(String... str) {
@@ -138,6 +151,26 @@ public class Util {
         Calendar calendar = Calendar.getInstance();
         calendar.setTimeInMillis(time);
         return calendar.getTime();
+    }
+    
+    private static String getMonth(String format){
+        String getting = format.substring(0,3);
+        String rest = format.substring(format.indexOf("-"),format.length());
+        switch(getting.toLowerCase()){
+            case "ene": return "Enero" + rest;
+            case "feb": return "Febrero" + rest;
+            case "mar": return "Marzo" + rest;
+            case "abr": return "Abril" + rest;
+            case "may": return "Mayo" + rest;
+            case "jun": return "Junio" + rest;
+            case "jul": return "Julio" + rest;
+            case "ago": return "Agosto" + rest;
+            case "sep": return "Septiembre" + rest;
+            case "oct": return "Octubre" + rest;
+            case "nov": return "Noviembre" + rest;
+            case "dic": return "Diciembre" + rest;
+        }
+        return "";
     }
     
 }

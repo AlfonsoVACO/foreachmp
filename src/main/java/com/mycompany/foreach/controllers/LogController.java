@@ -93,7 +93,7 @@ public class LogController implements Initializable {
     }
 
     private void generateXML98() throws IOException {
-        XmlToRun xmltorun = new XmlToRun(mwsno, gralinfo, workspace);
+        XmlToRun xmltorun = new XmlToRun(mwsno, gralinfo, workspace, nomenclatura);
         List<String> xml98 = xmltorun.executeXml();
         items.addAll(xml98);
     }

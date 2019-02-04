@@ -11,6 +11,8 @@ import com.mycompany.foreach.utils.Consultas;
 import com.mycompany.foreach.utils.FxDialogs;
 import com.mycompany.foreach.utils.Navegacion;
 import com.mycompany.foreach.utils.SendInfoToClass;
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.Connection;
@@ -28,6 +30,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import org.json.simple.parser.ParseException;
@@ -50,6 +53,8 @@ public class LoginController implements Initializable {
         try {
             send = new SendInfoToClass();
             createTables();
+        } catch (FileNotFoundException ex) {
+            openFile();
         } catch (IOException | ParseException ex) {
             FxDialogs.showException("Error", ex.getMessage(), ex);
             Thread closeprogram = new Thread(() -> {
@@ -62,6 +67,24 @@ public class LoginController implements Initializable {
                         .log(Level.SEVERE, null, ex1);
             }
             closeprogram.start();
+        }
+    }
+
+    private void openFile() {
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Buscar archivo de configuración JSON");
+
+        fileChooser.getExtensionFilters().add(
+                new FileChooser.ExtensionFilter("JSON", "*.json")
+        );
+        File archivo = fileChooser.showOpenDialog(null);
+        if (archivo != null) {
+            try {
+                send = new SendInfoToClass(archivo);
+                createTables();
+            } catch (IOException | ParseException ex) {
+                FxDialogs.showException("Error", ex.getMessage(), ex);
+            }
         }
     }
 
@@ -115,19 +138,23 @@ public class LoginController implements Initializable {
 
     private void createTables() {
         Connection conn = null;
-        try {            
+        try {
             conn = ConnectionLocal.getConnection();
             Statement st = conn.createStatement();
             st.execute(Consultas.CREATE_TABLE_ARCHIVOS);
             System.out.println("Tabla creada");
         } catch (SQLException | ClassNotFoundException ex) {
-            if(ex.getMessage().contains("exist"))
-                FxDialogs.showInformation(Constantes.TITLE,"Tablas listas");
-            else
-                FxDialogs.showError(Constantes.TITLE,ex.getMessage());
-        }finally {
-            try { conn.close(); }
-            catch (SQLException t){}
-        }  
+            if (ex.getMessage().contains("exist")) {
+                FxDialogs.showInformation(Constantes.TITLE, "Tablas listas");
+            } else {
+                FxDialogs.showError(Constantes.TITLE, ex.getMessage());
+            }
+        } finally {
+            try {
+                conn.close();
+            } catch (SQLException t) {
+                FxDialogs.showError(Constantes.TITLE, t.getMessage());
+            }
+        }
     }
 }

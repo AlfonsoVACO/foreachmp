@@ -54,15 +54,15 @@ public class Navegacion {
     
     private static FXMLController principalController;
     
-    public static void setStageController (FXMLController daftarBajuController ) {
-        Navegacion.principalController = daftarBajuController;
+    public static void setStageController (FXMLController controller ) {
+        Navegacion.principalController = controller;
     }
     
     public static void loadStageTambahBaju (String fxml) throws IOException{
-        principalController.setStageTambahBaju((Node) FXMLLoader.load(Navegacion.class.getResource(fxml)));
+        principalController.setStageLoadStage((Node) FXMLLoader.load(Navegacion.class.getResource(fxml)));
     }
     
     public static void loadStageDaftarListBaju (String fxml) throws IOException{
-        principalController.setStageDaftarListBaju((Node) FXMLLoader.load(Navegacion.class.getResource(fxml)));
+        principalController.setStageItemReporte((Node) FXMLLoader.load(Navegacion.class.getResource(fxml)));
     }
 }

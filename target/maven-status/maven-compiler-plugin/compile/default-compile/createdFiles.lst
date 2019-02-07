@@ -49,4 +49,5 @@ com\mycompany\foreach\models\JSONTemp$Stats.class
 com\mycompany\foreach\utils\actions\OperationsCMT.class
 com\mycompany\foreach\animacion\FadeInTransition.class
 com\mycompany\foreach\utils\Util.class
+com\mycompany\foreach\utils\actions\OrganizeCMT.class
 com\mycompany\foreach\connections\CreateTables.class

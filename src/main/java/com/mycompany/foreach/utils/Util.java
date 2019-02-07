@@ -69,13 +69,15 @@ public class Util {
                 .append("\\")
                 .append(namefile)
                 .append(extension);
-        try (BufferedWriter bufferedwritter = new BufferedWriter(
-                new FileWriter(new File(stringbuilder.toString())))) {
-            for (String line : lstfiles) {
-                bufferedwritter.write(line, 0, line.length());
-                bufferedwritter.newLine();
+        if (!Paths.get(stringbuilder.toString()).toFile().exists()) {
+            try (BufferedWriter bufferedwritter = new BufferedWriter(
+                    new FileWriter(new File(stringbuilder.toString())))) {
+                for (String line : lstfiles) {
+                    bufferedwritter.write(line, 0, line.length());
+                    bufferedwritter.newLine();
+                }
+                bufferedwritter.close();
             }
-            bufferedwritter.close();
         }
     }
 
@@ -108,7 +110,7 @@ public class Util {
         try {
             Date fecha = new Date();
             SimpleDateFormat simpledate
-                    = new SimpleDateFormat("dd/MM/yyyy hh:mm:ss",Locale.US);
+                    = new SimpleDateFormat("dd/MM/yyyy hh:mm:ss", Locale.US);
             simpledate.parse(fecha.toLocaleString());
             fechastr = simpledate.toString();
         } catch (ParseException ex) {
@@ -146,31 +148,43 @@ public class Util {
         }
         return lstnewPath.isEmpty() ? new ArrayList<>() : lstnewPath;
     }
-    
-    public static Date date(long time){
+
+    public static Date date(long time) {
         Calendar calendar = Calendar.getInstance();
         calendar.setTimeInMillis(time);
         return calendar.getTime();
     }
-    
-    private static String getMonth(String format){
-        String getting = format.substring(0,3);
-        String rest = format.substring(format.indexOf("-"),format.length());
-        switch(getting.toLowerCase()){
-            case "ene": return "Enero" + rest;
-            case "feb": return "Febrero" + rest;
-            case "mar": return "Marzo" + rest;
-            case "abr": return "Abril" + rest;
-            case "may": return "Mayo" + rest;
-            case "jun": return "Junio" + rest;
-            case "jul": return "Julio" + rest;
-            case "ago": return "Agosto" + rest;
-            case "sep": return "Septiembre" + rest;
-            case "oct": return "Octubre" + rest;
-            case "nov": return "Noviembre" + rest;
-            case "dic": return "Diciembre" + rest;
+
+    private static String getMonth(String format) {
+        String getting = format.substring(0, 3);
+        String rest = format.substring(format.indexOf("-"), format.length());
+        switch (getting.toLowerCase()) {
+            case "ene":
+                return "Enero" + rest;
+            case "feb":
+                return "Febrero" + rest;
+            case "mar":
+                return "Marzo" + rest;
+            case "abr":
+                return "Abril" + rest;
+            case "may":
+                return "Mayo" + rest;
+            case "jun":
+                return "Junio" + rest;
+            case "jul":
+                return "Julio" + rest;
+            case "ago":
+                return "Agosto" + rest;
+            case "sep":
+                return "Septiembre" + rest;
+            case "oct":
+                return "Octubre" + rest;
+            case "nov":
+                return "Noviembre" + rest;
+            case "dic":
+                return "Diciembre" + rest;
         }
         return "";
     }
-    
+
 }

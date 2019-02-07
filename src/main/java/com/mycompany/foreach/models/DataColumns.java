@@ -12,9 +12,11 @@ import com.mycompany.foreach.utils.Util;
 import com.mycompany.foreach.utils.actions.MoveFilesTable;
 import com.mycompany.foreach.utils.actions.OperationsCMT;
 import com.mycompany.foreach.utils.actions.Temp;
+import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.sql.SQLException;
+import java.util.List;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
@@ -47,13 +49,25 @@ public class DataColumns {
         this.delete = delete;
         this.mwsod = mwsod;
         this.gralinfo = gralinfo;
-        
+
         delete.setDisable(true);
 
         loadcmt.setOnMouseReleased((Event event) -> {
             int position = nombre.lastIndexOf("\\");
-            OperationsCMT operations = new OperationsCMT(
-                    mwsod, gralinfo, nombre.substring(0, position), nombre);
+            String workspace = nombre.substring(0, position);
+            OperationsCMT operations = 
+                    new OperationsCMT(mwsod, gralinfo, workspace, nombre);
+            List<String> logs = operations.getLogs();
+            if (!logs.isEmpty()) {
+                try {
+                    FxDialogs.showError(Constantes.TITLE,
+                            "Ocurrieron errores durante el proceso");
+                    Path path = Paths.get(workspace + "\\wM82\\");
+                    Util.makeFileNameds(logs, path, "Errores-mws", ".log");
+                } catch (IOException ex) {
+                    FxDialogs.showException(Constantes.TITLE, ex.getMessage(), ex);
+                }
+            }
             delete.setDisable(false);
         });
 
@@ -63,7 +77,7 @@ public class DataColumns {
             if (path.toFile().exists()) {
                 JSONTemp objjsom = temporal.readTemp(path.toFile());
                 MoveFilesTable move = new MoveFilesTable(objjsom);
-                
+
                 FxDialogs.showLongMessage(
                         Constantes.TITLE,
                         "Lista de logs al procesar",
@@ -76,18 +90,18 @@ public class DataColumns {
         });
 
         delete.setOnMouseReleased((Event arg0) -> {
-            try {
+                try {
                 if (FxDialogs.showConfirm(Constantes.TITLE,
                         "Está seguro de eliminar el registro",
                         FxDialogs.YES, FxDialogs.NO
                 ).equals(FxDialogs.YES)) {
-                    
+
                     DaoDataColumns.deleteDetail(id);
                     delete.setDisable(true);
                     execute.setDisable(true);
-                    FxDialogs.showInformation("Información", 
+                    FxDialogs.showInformation("Información",
                             "El registro se eliminará de la tabla \n"
-                                    + "al generar otro reporte o reiniciar la app");
+                            + "al generar otro reporte o reiniciar la app");
                     Util.removeFile(nombre);
                 }
             } catch (SQLException | ClassNotFoundException ex) {
@@ -127,8 +141,8 @@ public class DataColumns {
     public Button getDelete() {
         return delete;
     }
-    
-    public Button getLoadcmt(){
+
+    public Button getLoadcmt() {
         return loadcmt;
     }
 

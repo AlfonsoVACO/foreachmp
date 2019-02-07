@@ -8,6 +8,8 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ListView?>
 <?import javafx.scene.control.SplitPane?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TabPane?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
@@ -22,12 +24,12 @@
     <children>
         <AnchorPane id="AnchorPane" fx:id="loadBaju" prefHeight="650.0" prefWidth="1000.0" style="-fx-background-color: black;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
             <children>
-                <StackPane fx:id="tambahBaju" prefHeight="650.0" prefWidth="1000.0" style="-fx-background-color: black;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                <StackPane fx:id="panelHead" prefHeight="650.0" prefWidth="1000.0" style="-fx-background-color: black;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                     <children>
                         <Group>
                             <children>
                                 <StackPane fx:id="loadStage" layoutX="347.0" layoutY="182.0" prefHeight="374.0" prefWidth="604.0" style="-fx-background-color: white; -fx-background-radius: 10; -fx-padding: 10; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.8), 10, 0, 0, 0);" AnchorPane.leftAnchor="358.0" />
-                                <Button layoutX="940.0" layoutY="173.0" mnemonicParsing="false" onAction="#btnClose" prefHeight="17.0" prefWidth="21.0" style="-fx-background-image: url(&quot;/resources/closePage.png&quot;); -fx-background-size: 100% 100%;">
+                                <Button layoutX="940.0" layoutY="173.0" mnemonicParsing="false" onAction="#btnClose" prefHeight="17.0" prefWidth="21.0" style="-fx-background-image: url(&quot;/resources/images/closePage.png&quot;); -fx-background-size: 100% 100%;">
                                     <font>
                                         <Font size="8.0" />
                                     </font>
@@ -53,7 +55,7 @@
                         </AnchorPane>
                         <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="418.0" prefWidth="676.0" style="-fx-background-color: black;">
                             <children>
-                                <AnchorPane fx:id="editBaju" layoutX="179.0" layoutY="63.0" prefHeight="316.0" prefWidth="336.0" style="-fx-background-color: black;" />
+                                <AnchorPane fx:id="panelshadow" layoutX="179.0" layoutY="63.0" prefHeight="316.0" prefWidth="336.0" style="-fx-background-color: black;" />
                                 <SplitPane dividerPositions="0.15461847389558234" focusTraversable="true" layoutX="602.0" layoutY="48.0" prefHeight="525.0" prefWidth="998.0" style="-fx-background-color: black;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                     <items>
                                         <AnchorPane maxWidth="-Infinity" minHeight="0.0" minWidth="-Infinity" prefHeight="497.0" prefWidth="150.0" style="-fx-background-color: black;" SplitPane.resizableWithParent="false">
@@ -64,7 +66,7 @@
                                                             <content>
                                                                 <StackPane style="-fx-background-color: black;">
                                                                     <children>
-                                                                        <ListView fx:id="listViewBaju" layoutX="-2.0" onMouseClicked="#menuLateral" prefHeight="190.0" prefWidth="236.0" style="-fx-background-color: black;" AnchorPane.bottomAnchor="23.0" AnchorPane.topAnchor="5.0" StackPane.alignment="CENTER">
+                                                                        <ListView fx:id="listViewLateral" layoutX="-2.0" onMouseClicked="#menuLateral" prefHeight="190.0" prefWidth="236.0" style="-fx-background-color: black;" AnchorPane.bottomAnchor="23.0" AnchorPane.topAnchor="5.0" StackPane.alignment="CENTER">
                                                                             <StackPane.margin>
                                                                                 <Insets bottom="-11.0" left="-12.0" right="-11.0" top="-11.0" />
                                                                             </StackPane.margin>
@@ -79,14 +81,14 @@
                                         </AnchorPane>
                                         <StackPane style="-fx-background-color: black;">
                                             <children>
-                                                <StackPane fx:id="daftarListMenu" opacity="0.0" prefHeight="150.0" prefWidth="200.0" style="-fx-background-color: black" />
-                                                <StackPane fx:id="menuBaju" style="-fx-background-color: black;" StackPane.alignment="CENTER">
+                                                <StackPane fx:id="itemreporte" opacity="0.0" prefHeight="150.0" prefWidth="200.0" style="-fx-background-color: black" />
+                                                <StackPane fx:id="menuIz" style="-fx-background-color: black;" StackPane.alignment="CENTER">
                                                     <children>
                                                         <Group layoutX="52.0" layoutY="67.0" StackPane.alignment="CENTER">
                                                             <children>
                                                                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="514.0" prefWidth="819.0" style="-fx-background-color: black;">
                                                                     <children>
-                                                                        <TableView fx:id="tableBaju" onMouseClicked="#showinfo" prefHeight="428.0" prefWidth="727.0">
+                                                                        <TableView fx:id="tableMain" onMouseClicked="#showinfo" prefHeight="374.0" prefWidth="727.0">
                                                                             <columns>
                                                                                 <TableColumn fx:id="colPath" prefWidth="362.0" text="Path" />
                                                                                 <TableColumn fx:id="colDate" prefWidth="160.0" text="Fecha" />
@@ -95,22 +97,56 @@
                                                                                 <TableColumn fx:id="colDelete" prefWidth="110.0" text="Eliminar" />
                                                                             </columns>
                                                                         </TableView>
-                                                                        <HBox layoutX="14.0" layoutY="442.0" spacing="10.0">
-                                                                            <children>
-                                                                                <Button mnemonicParsing="false" onAction="#executeLDAO" prefHeight="31.0" prefWidth="105.0" style="-fx-text-fill: white;" styleClass="custem-button-input" text="Ejecutar">
-                                                                                    <font>
-                                                                                        <Font name="System Bold" size="12.0" />
-                                                                                    </font>
-                                                                                </Button>
-                                                                                <ComboBox fx:id="cmbMesg" prefHeight="25.0" prefWidth="173.0" promptText="Mes a generar" />
-                                                                                <Button mnemonicParsing="false" onAction="#clonaArch" prefHeight="31.0" prefWidth="105.0" style="-fx-text-fill: white;" styleClass="custem-button-input" text="Archivos a clonar">
-                                                                                    <font>
-                                                                                        <Font name="System Bold" size="12.0" />
-                                                                                    </font>
-                                                                                </Button>
-                                                            <TextField fx:id="txtnamesclone" prefHeight="25.0" prefWidth="298.0" />
-                                                                            </children>
-                                                                        </HBox>
+                                                                        <TabPane layoutX="12.0" layoutY="386.0" prefHeight="107.0" prefWidth="717.0" tabClosingPolicy="UNAVAILABLE">
+                                                                            <tabs>
+                                                                                <Tab text="General">
+                                                                                    <content>
+                                                                                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                                                                                            <children>
+                                                                                                <HBox layoutY="20.0" spacing="10.0">
+                                                                                                    <children>
+                                                                                                        <Button mnemonicParsing="false" onAction="#executeLDAO" prefHeight="31.0" prefWidth="105.0" style="-fx-text-fill: white;" styleClass="custem-button-input" text="Ejecutar">
+                                                                                                            <font>
+                                                                                                                <Font name="System Bold" size="12.0" />
+                                                                                                            </font>
+                                                                                                        </Button>
+                                                                                                        <ComboBox fx:id="cmbMesg" prefHeight="25.0" prefWidth="173.0" promptText="Mes a generar" />
+                                                                                                        <Button mnemonicParsing="false" onAction="#clonaArch" prefHeight="31.0" prefWidth="105.0" style="-fx-text-fill: white;" styleClass="custem-button-input" text="Archivos a clonar">
+                                                                                                            <font>
+                                                                                                                <Font name="System Bold" size="12.0" />
+                                                                                                            </font>
+                                                                                                        </Button>
+                                                                                                        <TextField fx:id="txtnamesclone" prefHeight="25.0" prefWidth="267.0" />
+                                                                                                    </children>
+                                                                                                </HBox>
+                                                                                            </children>
+                                                                                        </AnchorPane>
+                                                                                    </content>
+                                                                                </Tab>
+                                                                                <Tab text="Configuración">
+                                                                                    <content>
+                                                                                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                                                                                            <children>
+                                                                                                <HBox layoutY="20.0" prefHeight="100.0" prefWidth="704.0">
+                                                                                                    <children>
+                                                                                                        <Button mnemonicParsing="false" onAction="#cnfJson" prefHeight="31.0" prefWidth="105.0" style="-fx-text-fill: white;" styleClass="custem-button-input" text="Config JSON">
+                                                                                                            <font>
+                                                                                                                <Font name="System Bold" size="12.0" />
+                                                                                                            </font>
+                                                                                                        </Button>
+                                                                                                        <Button mnemonicParsing="false" onAction="#loadJsoncmt" prefHeight="31.0" prefWidth="105.0" style="-fx-text-fill: white;" styleClass="custem-button-input" text="Carga JSON CMT">
+                                                                                                            <font>
+                                                                                                                <Font name="System Bold" size="12.0" />
+                                                                                                            </font>
+                                                                                                        </Button>
+                                                                                                    </children>
+                                                                                                </HBox>
+                                                                                            </children>
+                                                                                        </AnchorPane>
+                                                                                    </content>
+                                                                                </Tab>
+                                                                            </tabs>
+                                                                        </TabPane>
                                                                         <Region prefHeight="16.0" prefWidth="677.0" />
                                                                         <Region prefHeight="386.0" prefWidth="12.0" />
                                                                     </children>

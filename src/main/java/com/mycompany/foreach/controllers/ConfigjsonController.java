@@ -41,8 +41,8 @@ public class ConfigjsonController implements Initializable {
     private Pane loadMainPane() throws IOException {
         FXMLLoader loader = new FXMLLoader();
         Pane mainPane = (Pane) loader.load(getClass().getResourceAsStream(nav.getPrincipal() ));
-        FXMLController daftarBaju = loader.getController();
-        Navegacion.setStageController(daftarBaju);
+        FXMLController principal = loader.getController();
+        Navegacion.setStageController(principal);
         return mainPane;
 
     }

@@ -7,29 +7,17 @@ package com.mycompany.foreach.utils.actions;
 
 import com.mycompany.foreach.models.GeneralInfo;
 import com.mycompany.foreach.models.Mws82;
-import com.mycompany.foreach.models.MwsArchive;
 import com.mycompany.foreach.models.MwsPrimary;
 import com.mycompany.foreach.utils.Constantes;
 import com.mycompany.foreach.utils.FxDialogs;
 import com.mycompany.foreach.utils.SendInfoCMT;
 import com.mycompany.foreach.utils.Util;
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  *
@@ -39,30 +27,34 @@ public class OperationsCMT extends SendInfoCMT {
 
     private final List<String> logs;
     private final Mws82 mwsod;
-    private final GeneralInfo gralinfo;
-    private final String fileconfig;
     private Path workspace;
-    private final Path workspace66;
-    private final Path workspace67;
 
-    List<String> listamemoryn1;
-    List<String> listamemoryn2;
-    List<String> listathreadsn1;
-    List<String> listathreadsn2;
-    List<String> listacpun1;
-    List<String> listacpun2;
+    private List<String> listamemoryn1;
+    private List<String> listamemoryn2;
+    private List<String> listathreadsn1;
+    private List<String> listathreadsn2;
+    private List<String> listacpun1;
+    private List<String> listacpun2;
+
+    private final List<String> nodo66;
+    private final List<String> nodo67;
 
     public OperationsCMT(Mws82 mwsod, GeneralInfo gralinfo, String workspace, String fileconfig) {
         super(Paths.get(fileconfig));
 
-        this.fileconfig = fileconfig;
+        this.nodo66 = new ArrayList<>();
+        this.nodo67 = new ArrayList<>();
         this.workspace = Paths.get(workspace);
         this.logs = new ArrayList<>();
         this.mwsod = mwsod;
-        this.gralinfo = gralinfo;
         this.workspace = Paths.get(workspace + "\\wM82\\");
-        this.workspace66 = Paths.get(workspace + "\\wM82\\" + mwsod.getToPath().get(0));
-        this.workspace67 = Paths.get(workspace + "\\wM82\\" + mwsod.getToPath().get(1));
+        this.listamemoryn1 = new ArrayList<>();
+        this.listamemoryn2 = new ArrayList<>();
+        this.listathreadsn1 = new ArrayList<>();
+        this.listathreadsn2 = new ArrayList<>();
+        this.listacpun1 = new ArrayList<>();
+        this.listacpun2 = new ArrayList<>();
+        
         getPaths();
     }
 
@@ -76,35 +68,21 @@ public class OperationsCMT extends SendInfoCMT {
                 getMWS(primary);
             }
         });
+        setUnifica();
+        createFiles();
     }
 
-    private void setInitialice(String name, String type) {
-        switch (type) {
-            case "cpu":
-                if (name.toLowerCase().contains("66")) {
-                    this.listacpun1 = new ArrayList<>();
-                } else {
-                    this.listacpun2 = new ArrayList<>();
-                }
-                break;
-            case "memory":
-                if (name.toLowerCase().contains("66")) {
-                    this.listamemoryn1 = new ArrayList<>();
-                } else {
-                    this.listamemoryn2 = new ArrayList<>();
-                }
-                break;
-            case "thread":
-                if (name.toLowerCase().contains("66")) {
-                    this.listathreadsn1 = new ArrayList<>();
-                } else {
-                    this.listathreadsn2 = new ArrayList<>();
-                }
-                break;
-        }
-    }
+    private void setUnifica() {
+        this.nodo66.addAll(this.listamemoryn1);
+        this.nodo66.addAll(this.listacpun1);
+        this.nodo66.addAll(this.listathreadsn1);
+        this.nodo67.addAll(this.listamemoryn2);
+        this.nodo67.addAll(this.listacpun2);
+        this.nodo67.addAll(this.listathreadsn2);
+    }    
 
     private void getMWS(MwsPrimary primary) {
+        OrganizeCMT organize = new OrganizeCMT();
         try {
             List<Path> lstfiltrados
                     = Util.filterContenido(Files.list(workspace), ".csv");
@@ -112,92 +90,51 @@ public class OperationsCMT extends SendInfoCMT {
                 FxDialogs.showWarning(Constantes.TITLE,
                         "No hay archivos, por favor agregalos");
             } else {
-                for (Path path : lstfiltrados) { //CMT
+                for (Path path : lstfiltrados) {
+                    String namefile = path.getFileName().toFile().getName();
                     String alias = primary.getAlias()
-                            .get(path.getFileName().toFile()
-                                    .getName().contains("66") ? 0 : 1);
-                    if (path.getFileName().toFile().getName().toLowerCase().contains("cpu")) {
-                        setInitialice(path.getFileName().toFile().getName(), "cpu");
-                    } else if (path.getFileName().toFile().getName().toLowerCase().contains("memory")) {
-                        setInitialice(path.getFileName().toFile().getName(), "memory");
-                        readMemory(primary.getMemory(), path.toFile(), alias);
-                    } else if (path.getFileName().toFile().getName().toLowerCase().contains("thread")) {
-                        setInitialice(path.getFileName().toFile().getName(), "thread");
+                            .get(namefile.contains("66") ? 0 : 1);
+                    int nodo = namefile.toLowerCase().contains("66")
+                            || namefile.contains("1") ? 0 : 1;
+
+                    if (namefile.toLowerCase().contains("cpu")) {
+                        organize.readCPU(primary.getCpu(), path.toFile(), alias, nodo);
+                    } else if (namefile.toLowerCase().contains("memory")) {
+                        organize.readMemory(primary.getMemory(), path.toFile(), alias, nodo);
+                    } else if (namefile.toLowerCase().contains("thread")) {
+                        organize.readThread(primary.getThreads(), path.toFile(), alias, nodo);
                     }
                 }
-            }
-        } catch (IOException ex) {
-            this.logs.add("Error: " + ex.getMessage());
-        }
-    }
-
-    private void readMemory(MwsArchive archive, File archivo, String alias) throws FileNotFoundException {
-        BufferedReader br = new BufferedReader(new FileReader(archivo));
-        try {
-            String line = br.readLine();
-            while (null != line) {
-                StringBuilder stringbuild = new StringBuilder();
-                String[] fields = line.split(";");
-                if (fields[0].contains("time")) {
-                    stringbuild.append(getHeads(archive));
-                } else {
-                    stringbuild.append(getBody(archive, fields, alias));
-                    //this.listacontn1.add(stringbuild.toString());
+                if (!organize.getLogs().isEmpty()) {
+                    this.logs.addAll(organize.getLogs());
                 }
-                System.out.println(stringbuild.toString());
-                line = br.readLine();
+                setToLists(organize);
             }
         } catch (IOException ex) {
             this.logs.add("Error: " + ex.getMessage());
-        } finally {
-            try {
-                br.close();
-            } catch (IOException ex) {
-                this.logs.add("Error: " + ex.getMessage());
-            }
         }
-
     }
 
-    private String getBody(MwsArchive archive, String[] fields, String alias) {
-        StringBuilder stringbuild = new StringBuilder();
-        stringbuild.append(alias).append(",");
-        stringbuild.append(archive.getStatics().get(0)).append(",");
-        stringbuild.append(fields[1]).append(",");
-        stringbuild.append(fields[2]).append(",");
-        stringbuild.append(archive.getStatics().get(1)).append(",");
-        stringbuild.append(fields[0]).append(",");
-        getDate(fields[0]);
-        return stringbuild.toString();
+    private void setToLists(OrganizeCMT organize) {
+        this.listamemoryn1 = organize.getListamemoryn1();
+        this.listamemoryn2 = organize.getListamemoryn2();
+        this.listathreadsn1 = organize.getListathreadsn1();
+        this.listathreadsn2 = organize.getListathreadsn2();
+        this.listacpun1 = organize.getListacpun1();
+        this.listacpun2 = organize.getListacpun2();
     }
-
-    private String getHeads(MwsArchive archive) {
-        String heads = Arrays.toString(archive.getHeads().toArray());
-        return heads.replace("[", "").replace("]", "");
-    }
-
-    private void getDate(String fecha) {
-        long fechalng = Long.valueOf(fecha.replace(".", ""));
-        Calendar calendar = Calendar.getInstance();
-        calendar.setTimeInMillis(fechalng);
-        System.out.println(calendar.toString());
-        System.out.println(getPattern(calendar.toString()));
-    }
-
-    private Date getPattern(String fecha) {
-        Date fechas = null;
+    
+    private void createFiles(){
         try {
-            SimpleDateFormat dateform = new SimpleDateFormat(mwsod.getArchives().getOnRegex());
-            fechas = dateform.parse(fecha);
-        } catch (ParseException ex) {
-            Logger.getLogger(OperationsCMT.class.getName()).log(Level.SEVERE, null, ex);
+            Path workspacemws = Paths.get(this.workspace.toString() + "\\MWS-82");
+            if(!workspacemws.toFile().exists()){
+                workspacemws.toFile().mkdir();
+            }
+            Util.makeFileNameds(this.nodo66, workspacemws, "MWS-Nodo66", ".csv");
+            Util.makeFileNameds(this.nodo67, workspacemws, "MWS-Nodo67", ".csv");
+        } catch (IOException ex) {
+            this.logs.add(ex.getMessage());
         }
-        return fechas != null ? fechas : new Date();
     }
 
-    private static boolean isInHour(String str) {
-        String[] split = str.split(",");
-        String formathhmm = split[1].substring(0, split[1].length() - 3);
-        return formathhmm.matches(Constantes.REGEX_CMT);
-    }
 }

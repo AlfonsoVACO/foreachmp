@@ -94,7 +94,7 @@ public class LoginController implements Initializable {
                 getResourceAsStream(nav.getPrincipal()));
         FXMLController controler = loader.getController();
         Navegacion.setStageController(controler);
-        Navegacion.loadStageDaftarListBaju(nav.getConfigjson());
+        Navegacion.loadStageItemReporte(nav.getConfigjson());
         return mainPane;
     }
 
@@ -125,7 +125,7 @@ public class LoginController implements Initializable {
             Node node = (Node) event.getSource();
             Stage st = (Stage) node.getScene().getWindow();
             Stage showDECORATED = new Stage(StageStyle.DECORATED);
-
+            showDECORATED.setResizable(false);
             showDECORATED.setScene(createScene(loadMainPane()));
             showDECORATED.centerOnScreen();
             showDECORATED.show();

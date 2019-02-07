@@ -35,7 +35,6 @@ import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
-import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.effect.GaussianBlur;
 import javafx.scene.input.KeyEvent;
@@ -61,7 +60,7 @@ public class FXMLController implements Initializable {
     @FXML
     private ComboBox cmbMesg;
     @FXML
-    private TextField txtnamesclone;
+    private Label txtnamesclone;
 
     @FXML
     private final ObservableList<String> listView
@@ -69,7 +68,7 @@ public class FXMLController implements Initializable {
     public List<File> archivesToClone;
 
     public static Connection conn;
-    public static String comboBaju, verificador, id_usuario, tambah = "";
+    public static String combomeses, verificador, id_usuario, registro = "";
     private ObservableList<DataColumns> listatempo;
 
     public static Mws98 mwsno;
@@ -113,7 +112,6 @@ public class FXMLController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         isDirExist();
-        txtnamesclone.setEditable(false);
         cargaComboMeses();
         columnLateral();
         try {
@@ -121,7 +119,7 @@ public class FXMLController implements Initializable {
         } catch (SQLException | ClassNotFoundException ex) {
             FxDialogs.showException(Constantes.TITLE, ex.getMessage(), ex);
         }
-        
+
         panelHead.toBack();
         panelHead.setOpacity(0);
         panelshadow.toBack();
@@ -129,7 +127,7 @@ public class FXMLController implements Initializable {
         menuIz.setEffect(null);
         lblAdmin.setText(id_usuario);
         nav = new Navegacion();
-        
+
         try {
             conn = ConnectionLocal.getConnection();
             CreateTables.creaTablas(conn);
@@ -137,8 +135,8 @@ public class FXMLController implements Initializable {
             FxDialogs.showException(Constantes.TITLE, ex.getMessage(), ex);
         }
     }
-    
-    private void isDirExist(){
+
+    private void isDirExist() {
         File pathdir = Paths.get(gralinfo.getInDir()).toFile();
         if (!pathdir.exists()) {
             StringBuilder strbuild = new StringBuilder();
@@ -176,11 +174,16 @@ public class FXMLController implements Initializable {
             throws IOException, SQLException, ClassNotFoundException {
         if (event.getClickCount() == 2) {
             DataColumns klik = tableMain.getSelectionModel().getSelectedItems().get(0);
-            new FadeInRightTransition(panelHead).play();
-            menuIz.setEffect(new GaussianBlur(10));
-            InfoController.columnas = klik;
-            Navegacion.loadStageTambahBaju(nav.getInfo());
-            CargaTable();
+            if (klik != null) {
+                new FadeInRightTransition(panelHead).play();
+                menuIz.setEffect(new GaussianBlur(10));
+                InfoController.columnas = klik;
+                Navegacion.loadStageLoadStage(nav.getInfo());
+                CargaTable();
+            }else{
+                FxDialogs.showWarning(Constantes.TITLE, 
+                        "No seleccionaste ninguna columna");
+            }
         }
     }
 
@@ -199,7 +202,7 @@ public class FXMLController implements Initializable {
                 LogController.mwsno = mwsno;
                 LogController.mwsod = mwsod;
                 LogController.mesGenera = cmbMesg.getValue().toString();
-                Navegacion.loadStageTambahBaju(nav.getLog());
+                Navegacion.loadStageLoadStage(nav.getLog());
                 CargaTable();
                 cleanVars();
             } else {
@@ -265,7 +268,7 @@ public class FXMLController implements Initializable {
         try {
             new FadeInRightTransition(panelHead).play();
             menuIz.setEffect(new GaussianBlur(10));
-            Navegacion.loadStageTambahBaju(nav.getConfigjson());
+            Navegacion.loadStageLoadStage(nav.getConfigjson());
         } catch (IOException ex) {
             FxDialogs.showException(Constantes.TITLE, ex.getMessage(), ex);
         }

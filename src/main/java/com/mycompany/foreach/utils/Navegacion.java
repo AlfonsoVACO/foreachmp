@@ -58,11 +58,11 @@ public class Navegacion {
         Navegacion.principalController = controller;
     }
     
-    public static void loadStageTambahBaju (String fxml) throws IOException{
+    public static void loadStageLoadStage (String fxml) throws IOException{
         principalController.setStageLoadStage((Node) FXMLLoader.load(Navegacion.class.getResource(fxml)));
     }
     
-    public static void loadStageDaftarListBaju (String fxml) throws IOException{
+    public static void loadStageItemReporte (String fxml) throws IOException{
         principalController.setStageItemReporte((Node) FXMLLoader.load(Navegacion.class.getResource(fxml)));
     }
 }

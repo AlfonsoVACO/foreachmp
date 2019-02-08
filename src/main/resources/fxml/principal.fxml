@@ -88,13 +88,10 @@
                                                             <children>
                                                                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="514.0" prefWidth="819.0" style="-fx-background-color: black;">
                                                                     <children>
-                                                                        <TableView fx:id="tableMain" onMouseClicked="#showinfo" prefHeight="374.0" prefWidth="727.0">
+                                                                        <TableView fx:id="tableMain" onKeyPressed="#showDatabase" onMouseClicked="#showinfo" prefHeight="374.0" prefWidth="727.0">
                                                                             <columns>
-                                                                                <TableColumn fx:id="colPath" prefWidth="362.0" text="Path" />
+                                                                                <TableColumn fx:id="colPath" prefWidth="560.0" text="Path" />
                                                                                 <TableColumn fx:id="colDate" prefWidth="160.0" text="Fecha" />
-                                                                                <TableColumn fx:id="colExecute" prefWidth="110.0" text="Ejecutar" />
-                                                                                <TableColumn fx:id="colCMT" prefWidth="198.0" text="CPU, Memoria y Threads" />
-                                                                                <TableColumn fx:id="colDelete" prefWidth="110.0" text="Eliminar" />
                                                                             </columns>
                                                                         </TableView>
                                                                         <TabPane layoutX="12.0" layoutY="386.0" prefHeight="107.0" prefWidth="717.0" tabClosingPolicy="UNAVAILABLE">

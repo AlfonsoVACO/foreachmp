@@ -13,9 +13,12 @@ import com.mycompany.foreach.utils.Constantes;
 import com.mycompany.foreach.utils.FxDialogs;
 import com.mycompany.foreach.utils.Navegacion;
 import com.mycompany.foreach.utils.Util;
+import com.mycompany.foreach.utils.actions.Combinaciones;
+import com.mycompany.foreach.utils.actions.OperationsCMT;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
+import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -37,6 +40,9 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.effect.GaussianBlur;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyCodeCombination;
+import javafx.scene.input.KeyCombination;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
@@ -54,7 +60,7 @@ public class FXMLController implements Initializable {
     @FXML
     private TableView<DataColumns> tableMain;
     @FXML
-    private TableColumn<DataColumns, String> colPath, colDate, colDelete, colExecute, colCMT;
+    private TableColumn<DataColumns, String> colPath, colDate;//, colDelete, colExecute, colCMT;
     @FXML
     private Label lblAdmin;
     @FXML
@@ -133,6 +139,12 @@ public class FXMLController implements Initializable {
             CreateTables.creaTablas(conn);
         } catch (SQLException | ClassNotFoundException ex) {
             FxDialogs.showException(Constantes.TITLE, ex.getMessage(), ex);
+        } finally {
+            try {
+                conn.close();
+            } catch (SQLException ex) {
+                FxDialogs.showException(Constantes.TITLE, ex.getMessage(), ex);
+            }
         }
     }
 
@@ -170,6 +182,36 @@ public class FXMLController implements Initializable {
     }
 
     @FXML
+    private void showDatabase(KeyEvent event) throws SQLException, ClassNotFoundException {
+        KeyCombination combinacionbd = new KeyCodeCombination(KeyCode.B, KeyCombination.CONTROL_DOWN);
+        KeyCombination combinacionex = new KeyCodeCombination(KeyCode.E, KeyCombination.CONTROL_DOWN);
+        KeyCombination combinacionde = new KeyCodeCombination(KeyCode.D, KeyCombination.CONTROL_DOWN);
+        KeyCombination combinacionmo = new KeyCodeCombination(KeyCode.M, KeyCombination.CONTROL_DOWN);
+        DataColumns klik = tableMain.getSelectionModel().getSelectedItems().get(0);
+        if (combinacionbd.match(event)) {
+            Combinaciones cmt = new Combinaciones(klik);
+            cmt.removeDB();
+            CargaTable();
+        }
+        if (combinacionex.match(event)) {
+            Combinaciones cmt = new Combinaciones(klik, mwsod, gralinfo);
+            cmt.loadcmt();
+        }
+        if (combinacionde.match(event)) {
+            Combinaciones cmt = new Combinaciones(klik);
+            cmt.delete();
+            CargaTable();
+        }
+        if (combinacionmo.match(event)) {
+            Combinaciones cmt = new Combinaciones(klik);
+            cmt.execute();
+        }
+        if(event.getCode() == KeyCode.F1){
+            FxDialogs.showInformation(Constantes.TITLE, Constantes.getMessageInfo());
+        }
+    }
+
+    @FXML
     private void showinfo(MouseEvent event)
             throws IOException, SQLException, ClassNotFoundException {
         if (event.getClickCount() == 2) {
@@ -180,8 +222,8 @@ public class FXMLController implements Initializable {
                 InfoController.columnas = klik;
                 Navegacion.loadStageLoadStage(nav.getInfo());
                 CargaTable();
-            }else{
-                FxDialogs.showWarning(Constantes.TITLE, 
+            } else {
+                FxDialogs.showWarning(Constantes.TITLE,
                         "No seleccionaste ninguna columna");
             }
         }
@@ -217,13 +259,10 @@ public class FXMLController implements Initializable {
     private void CargaTable() throws SQLException, ClassNotFoundException {
         conn = ConnectionLocal.getConnection();
         listatempo = FXCollections.observableArrayList();
-        DaoDataColumns.LlenarInfoAll(conn, listatempo, mwsod, gralinfo);
+        DaoDataColumns.LlenarInfoAll(conn, listatempo);
         tableMain.setItems(listatempo);
         colPath.setCellValueFactory(new PropertyValueFactory<>("nombre"));
         colDate.setCellValueFactory(new PropertyValueFactory<>("fecha"));
-        colExecute.setCellValueFactory(new PropertyValueFactory<>("execute"));
-        colCMT.setCellValueFactory(new PropertyValueFactory<>("loadcmt"));
-        colDelete.setCellValueFactory(new PropertyValueFactory<>("delete"));
     }
 
     @FXML
@@ -264,7 +303,6 @@ public class FXMLController implements Initializable {
 
     @FXML
     private void cnfJson(ActionEvent event) {
-
         try {
             new FadeInRightTransition(panelHead).play();
             menuIz.setEffect(new GaussianBlur(10));
@@ -276,5 +314,69 @@ public class FXMLController implements Initializable {
 
     @FXML
     private void loadJsoncmt(ActionEvent event) {
+        File archivo = openFile();
+        if (archivo != null) {
+            String opcion = FxDialogs
+                    .showConfirm(Constantes.TITLE,
+                            "Cargar archivo de configuración para proceso de "
+                            + "CPU, Memory, Threads",
+                            "CMT", "Guardar en Tabla", "Cancelar");
+            switch (opcion) {
+                case "CMT":
+                    onActionCMT(archivo.toString());
+                    break;
+                case "Guardar en Tabla":
+                    setFilesInDB(archivo.toString());
+                    break;
+                default:
+                    break;
+            }
+        } else {
+            FxDialogs.showError(Constantes.TITLE, "El archivo no existe");
+        }
     }
+
+    private File openFile() {
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Buscar archivo de proceso CMT JSON");
+        fileChooser.getExtensionFilters().add(
+                new FileChooser.ExtensionFilter("JSON", "*.json")
+        );
+        return fileChooser.showOpenDialog(null);
+    }
+
+    private void setFilesInDB(String path) {
+        try {
+            conn = ConnectionLocal.getConnection();
+            DaoDataColumns.setUrlJSON(conn, path);
+            CargaTable();
+        } catch (SQLException | ClassNotFoundException ex) {
+            FxDialogs.showException(Constantes.TITLE, ex.getMessage(), ex);
+        } finally {
+            try {
+                conn.close();
+            } catch (SQLException ex) {
+                FxDialogs.showException(Constantes.TITLE, ex.getMessage(), ex);
+            }
+        }
+    }
+
+    private void onActionCMT(String nombre) {
+        int position = nombre.lastIndexOf("\\");
+        String workspacecmt = nombre.substring(0, position);
+        OperationsCMT operations
+                = new OperationsCMT(mwsod, gralinfo, workspacecmt, nombre);
+        List<String> logs = operations.getLogs();
+        if (!logs.isEmpty()) {
+            try {
+                FxDialogs.showError(Constantes.TITLE,
+                        "Ocurrieron errores durante el proceso");
+                Path path = Paths.get(workspacecmt + "\\wM82\\");
+                Util.makeFileNameds(logs, path, "Errores-mws", ".log");
+            } catch (IOException ex) {
+                FxDialogs.showException(Constantes.TITLE, ex.getMessage(), ex);
+            }
+        }
+    }
+   
 }

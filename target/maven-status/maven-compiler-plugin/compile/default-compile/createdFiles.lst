@@ -1,4 +1,5 @@
 com\mycompany\foreach\controllers\FXMLController$1.class
+com\mycompany\foreach\utils\actions\Combinaciones.class
 com\mycompany\foreach\models\PrimaryDir.class
 com\mycompany\foreach\utils\actions\MoveFilesTable.class
 com\mycompany\foreach\models\Archives.class
@@ -22,6 +23,7 @@ com\mycompany\foreach\utils\Consultas.class
 com\mycompany\foreach\controllers\LoginController.class
 com\mycompany\foreach\utils\ExampleFileFilter.class
 com\mycompany\foreach\models\MwsArchive.class
+com\mycompany\foreach\models\Combina.class
 com\mycompany\foreach\connections\ConnectionLocal.class
 com\mycompany\foreach\controllers\InfoController.class
 com\mycompany\foreach\animacion\CachedTimelineTransition.class

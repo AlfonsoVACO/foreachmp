@@ -7,8 +7,6 @@ package com.mycompany.foreach.daos;
 
 import com.mycompany.foreach.connections.ConnectionLocal;
 import com.mycompany.foreach.models.DataColumns;
-import com.mycompany.foreach.models.GeneralInfo;
-import com.mycompany.foreach.models.Mws82;
 import com.mycompany.foreach.utils.Consultas;
 import java.sql.Connection;
 import java.sql.Date;
@@ -17,7 +15,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import javafx.collections.ObservableList;
-import javafx.scene.control.Button;
 
 /**
  *
@@ -26,8 +23,7 @@ import javafx.scene.control.Button;
 public class DaoDataColumns {
 
     public static void LlenarInfoAll(Connection connection, 
-            ObservableList<DataColumns> lista, 
-            Mws82 mwsod, GeneralInfo gralinfo) throws SQLException {
+            ObservableList<DataColumns> lista) throws SQLException {
         
         Statement instruccion = connection.createStatement();
         try (ResultSet rs = instruccion.executeQuery(Consultas.SELECT_ARCHIVOS_EXISTENCIA_ALL)) {
@@ -36,12 +32,7 @@ public class DaoDataColumns {
                         new DataColumns(
                                 rs.getInt("idfile"),
                                 rs.getString("url"),
-                                rs.getString("fecha"),
-                                new Button("Mover"),
-                                new Button("CPU, Memory, Threads"),
-                                new Button("Eliminar"),
-                                mwsod,
-                                gralinfo
+                                rs.getString("fecha")
                         )
                 );
             }

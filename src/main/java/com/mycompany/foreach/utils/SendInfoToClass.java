@@ -17,6 +17,8 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.nio.file.Paths;
 import java.util.Arrays;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -60,13 +62,20 @@ public final class SendInfoToClass {
         return notfound ? this.archivo : Paths.get(Constantes.PATH_JSON).toFile();
     }
 
-    private void getJson() throws FileNotFoundException, IOException, ParseException {
-        JSONParser parser = new JSONParser();
-        Object objJSON = parser.parse(new FileReader(getFilePathJSON()));
-        JSONObject objeto = (JSONObject) objJSON;
-        this.mwsno = getMws98((JSONObject) objeto.get("mws98"));
-        this.mwsod = getMws82((JSONObject) objeto.get("mws82"));
-        this.gral = getGeneralInfo((JSONObject) objeto.get("createDir"));
+    private void getJson(){
+        try {
+            JSONParser parser = new JSONParser();
+            Object objJSON = parser.parse(new FileReader(getFilePathJSON()));
+            JSONObject objeto = (JSONObject) objJSON;
+            this.mwsno = getMws98((JSONObject) objeto.get("mws98"));
+            this.mwsod = getMws82((JSONObject) objeto.get("mws82"));
+            this.gral = getGeneralInfo((JSONObject) objeto.get("createDir"));
+        } catch (FileNotFoundException ex) {
+            FxDialogs.showException("Error", "Archivo no encontrado", ex);
+        } catch (IOException | ParseException ex) {
+            FxDialogs.showException("Error", ex.getMessage(), ex);
+            System.exit(0);
+        }
     }
     
     private GeneralInfo getGeneralInfo(JSONObject gralinfo){

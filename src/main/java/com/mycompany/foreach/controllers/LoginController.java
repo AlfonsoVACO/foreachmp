@@ -19,8 +19,6 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ResourceBundle;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -63,8 +61,7 @@ public class LoginController implements Initializable {
             try {
                 Thread.sleep(3000);
             } catch (InterruptedException ex1) {
-                Logger.getLogger(LoginController.class.getName())
-                        .log(Level.SEVERE, null, ex1);
+                FxDialogs.showException("Error", ex.getMessage(), ex);
             }
             closeprogram.start();
         }

@@ -234,7 +234,9 @@ public class FXMLController implements Initializable {
         try {
             if (anioints != 0
                     && !archivesToClone.isEmpty()
-                    && cmbMesg.getValue().toString() != null) {
+                    && cmbMesg.getValue().toString() != null
+                    && txtnamesclone.getText() != null
+                    && !txtnamesclone.getText().equals("")) {
 
                 new FadeInRightTransition(panelHead).play();
                 menuIz.setEffect(new GaussianBlur(10));

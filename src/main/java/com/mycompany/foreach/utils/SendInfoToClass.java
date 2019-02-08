@@ -70,8 +70,6 @@ public final class SendInfoToClass {
             this.mwsno = getMws98((JSONObject) objeto.get("mws98"));
             this.mwsod = getMws82((JSONObject) objeto.get("mws82"));
             this.gral = getGeneralInfo((JSONObject) objeto.get("createDir"));
-        } catch (FileNotFoundException ex) {
-            FxDialogs.showException("Error", "Archivo no encontrado", ex);
         } catch (IOException | ParseException ex) {
             FxDialogs.showException("Error", ex.getMessage(), ex);
             System.exit(0);

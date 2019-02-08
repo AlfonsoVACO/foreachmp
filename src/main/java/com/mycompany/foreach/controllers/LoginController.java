@@ -52,7 +52,12 @@ public class LoginController implements Initializable {
             send = new SendInfoToClass();
             createTables();
         } catch (FileNotFoundException ex) {
-            openFile();
+            try {
+                openFile();
+            } catch (IOException | ParseException ex1) {
+                FxDialogs.showException("Error", ex.getMessage(), ex1);
+                System.exit(0);
+            }
         } catch (IOException | ParseException ex) {
             FxDialogs.showException("Error", ex.getMessage(), ex);
             Thread closeprogram = new Thread(() -> {
@@ -67,7 +72,7 @@ public class LoginController implements Initializable {
         }
     }
 
-    private void openFile() {
+    private void openFile() throws IOException, FileNotFoundException, ParseException {
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Buscar archivo de configuración JSON");
 
@@ -76,12 +81,8 @@ public class LoginController implements Initializable {
         );
         File archivo = fileChooser.showOpenDialog(null);
         if (archivo != null) {
-            try {
-                send = new SendInfoToClass(archivo);
-                createTables();
-            } catch (IOException | ParseException ex) {
-                FxDialogs.showException("Error", ex.getMessage(), ex);
-            }
+            send = new SendInfoToClass(archivo);
+            createTables();
         }
     }
 

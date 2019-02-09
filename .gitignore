@@ -11,12 +11,10 @@
 
 # Virtual
 DB/*
-output/*
-build/*
+output
+build
+tarjet
 
 *.DS_Store
 *.classpath
 *.project
-
-# ignorando target
-tarjet

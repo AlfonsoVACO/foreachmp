@@ -14,8 +14,18 @@
 *.project
 
 # Virtual
-DB/*
-output
-build
-tarjet
-.tarjet/
+nbproject/private/
+build/
+nbbuild/
+dist/
+nbdist/
+DB/
+tarjet/
+nbactions.xml
+nb-configuration.xml
+
+# Windows
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+$RECYCLE.BIN/

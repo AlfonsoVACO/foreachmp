@@ -19,5 +19,4 @@ build/*
 *.project
 
 # ignorando target
-tarjet/*
-tarjet/
+tarjet

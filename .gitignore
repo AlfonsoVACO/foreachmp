@@ -13,7 +13,10 @@
 DB/*
 output/*
 build/*
-**/tarjet/*
+
 *.DS_Store
 *.classpath
 *.project
+
+# ignorando target
+tarjet/*

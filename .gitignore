@@ -10,7 +10,8 @@
 *.class
 
 # Virtual
-*/DB/*
+*//*
+DB/
 output/
 build/
 tarjet/

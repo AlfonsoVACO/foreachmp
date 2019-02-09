@@ -19,6 +19,8 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -48,41 +50,34 @@ public class LoginController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         nav = new Navegacion();
-        try {
-            send = new SendInfoToClass();
-            createTables();
-        } catch (FileNotFoundException ex) {
+        send = new SendInfoToClass();
+        if(send.isFail()){
             try {
-                openFile();
-            } catch (IOException | ParseException ex1) {
-                FxDialogs.showException("Error", ex.getMessage(), ex1);
-                System.exit(0);
+                send.getJson();   
+                createTables();
+            } catch (IOException ex) {
+                FxDialogs.showException(Constantes.TITLE, ex.getMessage(), ex);
             }
-        } catch (IOException | ParseException ex) {
-            FxDialogs.showException("Error", ex.getMessage(), ex);
-            Thread closeprogram = new Thread(() -> {
-                exit();
-            });
-            try {
-                Thread.sleep(3000);
-            } catch (InterruptedException ex1) {
-                FxDialogs.showException("Error", ex.getMessage(), ex);
-            }
-            closeprogram.start();
+        }else{
+            openFile();
         }
     }
 
-    private void openFile() throws IOException, FileNotFoundException, ParseException {
+    private void openFile() {
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Buscar archivo de configuración JSON");
-
         fileChooser.getExtensionFilters().add(
                 new FileChooser.ExtensionFilter("JSON", "*.json")
         );
         File archivo = fileChooser.showOpenDialog(null);
         if (archivo != null) {
-            send = new SendInfoToClass(archivo);
-            createTables();
+            try {
+                send = new SendInfoToClass(archivo);
+                send.getJson();
+                createTables();
+            } catch (IOException ex) {
+                FxDialogs.showException(Constantes.TITLE, ex.getMessage(), ex);
+            }
         }
     }
 

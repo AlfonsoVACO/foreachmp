@@ -17,8 +17,6 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.nio.file.Paths;
 import java.util.Arrays;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -30,20 +28,25 @@ import org.json.simple.parser.ParseException;
  */
 public final class SendInfoToClass {
 
-    private Mws98 mwsno ;
+    private Mws98 mwsno;
     private Mws82 mwsod;
     private GeneralInfo gral;
     private File archivo;
-    private boolean notfound = false;
+    private final boolean notfound;
+    private boolean fail;
 
-    public SendInfoToClass() throws IOException, FileNotFoundException, ParseException {
-        getJson();
+    public SendInfoToClass() {
+        this.fail = Paths.get(Constantes.PATH_JSON).toFile().exists();
+        this.notfound = false;
     }
-    
-    public SendInfoToClass(File archivo) throws IOException, FileNotFoundException, ParseException {
+
+    public SendInfoToClass(File archivo) {
         this.archivo = archivo;
         this.notfound = true;
-        getJson();
+    }
+
+    public boolean isFail() {
+        return this.fail;
     }
 
     public Mws82 getMWS82() {
@@ -53,8 +56,8 @@ public final class SendInfoToClass {
     public Mws98 getMWS98() {
         return this.mwsno;
     }
-    
-    public GeneralInfo getIntoGral(){
+
+    public GeneralInfo getIntoGral() {
         return this.gral;
     }
 
@@ -62,7 +65,7 @@ public final class SendInfoToClass {
         return notfound ? this.archivo : Paths.get(Constantes.PATH_JSON).toFile();
     }
 
-    private void getJson(){
+    public void getJson() throws FileNotFoundException {
         try {
             JSONParser parser = new JSONParser();
             Object objJSON = parser.parse(new FileReader(getFilePathJSON()));
@@ -70,15 +73,20 @@ public final class SendInfoToClass {
             this.mwsno = getMws98((JSONObject) objeto.get("mws98"));
             this.mwsod = getMws82((JSONObject) objeto.get("mws82"));
             this.gral = getGeneralInfo((JSONObject) objeto.get("createDir"));
-        } catch (IOException | ParseException ex) {
-            FxDialogs.showException("Error", ex.getMessage(), ex);
-            System.exit(0);
+        } catch (NullPointerException nulp) {
+            if (FxDialogs.showConfirm(Constantes.TITLE, 
+                    "Archivo dañado ó inválido", FxDialogs.OK)
+                    .equals(FxDialogs.OK)) {
+                System.exit(0);
+            }
+        } catch (ParseException | IOException ex) {
+            FxDialogs.showException(Constantes.TITLE, ex.getMessage(), ex);
         }
     }
-    
-    private GeneralInfo getGeneralInfo(JSONObject gralinfo){
+
+    private GeneralInfo getGeneralInfo(JSONObject gralinfo) {
         JSONArray extras = (JSONArray) gralinfo.get("extras");
-        return new GeneralInfo( (String) gralinfo.get("inDir"), extras);
+        return new GeneralInfo((String) gralinfo.get("inDir"), extras);
     }
 
     private Mws98 getMws98(JSONObject mws98) {
@@ -110,46 +118,46 @@ public final class SendInfoToClass {
 
     private Archives getArchives(JSONObject objArchives) {
         Archives archives = new Archives();
-        archives.setFilter( (String) objArchives.get("filter"));
-        archives.setOnRegex( (String) objArchives.get("onRegex"));
-        archives.setToRegex( (String) objArchives.get("toRegex"));
-        
-        JSONObject is = (JSONObject)  objArchives.get("IS");
-        JSONObject mws = (JSONObject)  objArchives.get("MWS");        
-        archives.setMwsis( Arrays.asList( getIS(is), getMWS(mws) ) );
+        archives.setFilter((String) objArchives.get("filter"));
+        archives.setOnRegex((String) objArchives.get("onRegex"));
+        archives.setToRegex((String) objArchives.get("toRegex"));
+
+        JSONObject is = (JSONObject) objArchives.get("IS");
+        JSONObject mws = (JSONObject) objArchives.get("MWS");
+        archives.setMwsis(Arrays.asList(getIS(is), getMWS(mws)));
         return archives;
     }
-    
-    private MwsPrimary getIS(JSONObject is){
+
+    private MwsPrimary getIS(JSONObject is) {
         JSONArray heads = (JSONArray) is.get("heads");
         JSONArray alias = (JSONArray) is.get("alias");
         JSONArray display = (JSONArray) is.get("display");
-        
+
         MwsPrimary mwsp = new MwsPrimary();
         mwsp.setHeads(heads);
         mwsp.setAlias(alias);
         mwsp.setDisplay(display);
         mwsp.setType("IS");
-        
+
         return mwsp;
     }
-    
-    private MwsPrimary getMWS(JSONObject mws){
+
+    private MwsPrimary getMWS(JSONObject mws) {
         JSONArray heads = (JSONArray) mws.get("heads");
         JSONArray alias = (JSONArray) mws.get("alias");
         JSONObject memory = (JSONObject) mws.get("memory");
         JSONObject cpu = (JSONObject) mws.get("cpu");
         JSONObject threads = (JSONObject) mws.get("threads");
-        
+
         JSONArray headsarrMemory = (JSONArray) memory.get("heads");
         JSONArray staticarMemory = (JSONArray) memory.get("static");
-        
+
         JSONArray headsarrCpu = (JSONArray) cpu.get("heads");
         JSONArray staticarCpu = (JSONArray) cpu.get("static");
-        
+
         JSONArray headsarrThreads = (JSONArray) threads.get("heads");
         JSONArray staticarThreads = (JSONArray) threads.get("static");
-        
+
         MwsPrimary mwsp = new MwsPrimary();
         mwsp.setHeads(heads);
         mwsp.setAlias(alias);

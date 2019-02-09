@@ -9,12 +9,13 @@
 # classes
 *.class
 
+*.DS_Store
+*.classpath
+*.project
+
 # Virtual
 DB/*
 output
 build
 tarjet
-
-*.DS_Store
-*.classpath
-*.project
+.tarjet/

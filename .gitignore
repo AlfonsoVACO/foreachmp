@@ -13,7 +13,7 @@
 DB/*
 output/*
 build/*
-tarjet/*
+**/tarjet/*
 *.DS_Store
 *.classpath
 *.project

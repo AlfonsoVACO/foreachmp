@@ -96,6 +96,8 @@ public final class SendInfoToClass {
         mws.setIp((String) mws98.get("ip"));
         mws.setPath(Paths.get((String) mws98.get("path")));
         mws.setToPath(Paths.get((String) mws98.get("toPath")));
+        mws.setUser((String) mws98.get("user"));
+        mws.setPass((String) mws98.get("password"));
         return mws;
     }
 
@@ -104,8 +106,12 @@ public final class SendInfoToClass {
 
         JSONArray ips = (JSONArray) mws82.get("ips");
         JSONArray toPath = (JSONArray) mws82.get("toPath");
-        JSONArray commands = (JSONArray) mws82.get("commands");
-
+        JSONArray commands = (JSONArray) mws82.get("commands");        
+        JSONArray users = (JSONArray) mws82.get("users");
+        JSONArray passwords = (JSONArray) mws82.get("paswords");
+        
+        mws.setUser(users);
+        mws.setPass(passwords);
         mws.setIps(ips);
         mws.setPath(Paths.get((String) mws82.get("path")));
         mws.setExtension((String) mws82.get("extension"));
@@ -119,6 +125,7 @@ public final class SendInfoToClass {
     private Archives getArchives(JSONObject objArchives) {
         Archives archives = new Archives();
         archives.setFilter((String) objArchives.get("filter"));
+        archives.setFilterstat((String) objArchives.get("filterstat"));
         archives.setOnRegex((String) objArchives.get("onRegex"));
         archives.setToRegex((String) objArchives.get("toRegex"));
 

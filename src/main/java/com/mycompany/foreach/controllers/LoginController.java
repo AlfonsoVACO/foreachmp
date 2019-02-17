@@ -12,15 +12,12 @@ import com.mycompany.foreach.utils.FxDialogs;
 import com.mycompany.foreach.utils.Navegacion;
 import com.mycompany.foreach.utils.SendInfoToClass;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ResourceBundle;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -33,7 +30,6 @@ import javafx.scene.paint.Color;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
-import org.json.simple.parser.ParseException;
 
 /**
  * FXML Controller class

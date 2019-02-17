@@ -14,6 +14,7 @@ com\mycompany\foreach\models\Nodo.class
 com\mycompany\foreach\utils\actions\ReadXML.class
 com\mycompany\foreach\utils\actions\OperationsOD.class
 com\mycompany\foreach\utils\actions\XmlToRun.class
+com\mycompany\foreach\utils\actions\Server.class
 com\mycompany\foreach\utils\SendInfoCMT$StatsJson.class
 com\mycompany\foreach\models\Mws98.class
 com\mycompany\foreach\models\MwsPrimary.class

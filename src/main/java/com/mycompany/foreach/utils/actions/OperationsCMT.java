@@ -82,7 +82,7 @@ public class OperationsCMT extends SendInfoCMT {
     }    
 
     private void getMWS(MwsPrimary primary) {
-        OrganizeCMT organize = new OrganizeCMT();
+        OrganizeCMT organize = new OrganizeCMT(mwsod);
         try {
             List<Path> lstfiltrados
                     = Util.filterContenido(Files.list(workspace), ".csv");

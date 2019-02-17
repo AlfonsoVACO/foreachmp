@@ -15,8 +15,8 @@ import java.util.List;
  */
 public class Mws82 {
     private List<String> ips;
-    private String user;
-    private String pass;
+    private List<String> user;
+    private List<String> pass;
     private Path path;
     private String extension;
     private List<String> toPath;
@@ -31,19 +31,19 @@ public class Mws82 {
         this.ips = ips;
     }
 
-    public String getUser() {
+    public List<String> getUser() {
         return user;
     }
 
-    public void setUser(String user) {
+    public void setUser(List<String> user) {
         this.user = user;
     }
 
-    public String getPass() {
+    public List<String> getPass() {
         return pass;
     }
 
-    public void setPass(String pass) {
+    public void setPass(List<String> pass) {
         this.pass = pass;
     }
 

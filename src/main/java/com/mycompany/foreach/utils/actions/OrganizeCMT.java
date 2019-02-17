@@ -5,8 +5,8 @@
  */
 package com.mycompany.foreach.utils.actions;
 
+import com.mycompany.foreach.models.Mws82;
 import com.mycompany.foreach.models.MwsArchive;
-import com.mycompany.foreach.utils.Constantes;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -32,8 +32,9 @@ public class OrganizeCMT {
     private final List<String> listacpun1;
     private final List<String> listacpun2;
     private final List<String> logs;
+    private final Mws82 mwsod;
 
-    OrganizeCMT() {
+    OrganizeCMT(Mws82 mwsod) {
         this.logs = new ArrayList<>();
         this.listamemoryn1 = new ArrayList<>();
         this.listamemoryn2 = new ArrayList<>();
@@ -41,6 +42,7 @@ public class OrganizeCMT {
         this.listathreadsn2 = new ArrayList<>();
         this.listacpun1 = new ArrayList<>();
         this.listacpun2 = new ArrayList<>();
+        this.mwsod = mwsod;
     }
 
     public List<String> getLogs() {
@@ -251,13 +253,13 @@ public class OrganizeCMT {
     }
 
     private boolean isInRange(String date) {
-        return date.matches(Constantes.REGEX_CMT);
+        return date.matches(this.mwsod.getArchives().getFilter());
     }
 
     private String getDate(String fecha) {
         if (!fecha.toLowerCase().contains("time")) {
             Date fechadate = DateUtil.getJavaDate(Double.parseDouble(fecha));
-            SimpleDateFormat simpledatef = new SimpleDateFormat("dd/MM/yyyy hh:mm:ss");
+            SimpleDateFormat simpledatef = new SimpleDateFormat(mwsod.getArchives().getOnRegex());
             return simpledatef.format(fechadate);
         }
         return "";

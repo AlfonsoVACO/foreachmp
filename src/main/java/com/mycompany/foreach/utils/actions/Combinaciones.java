@@ -44,23 +44,26 @@ public class Combinaciones implements Combina {
 
     @Override
     public void loadcmt() {
-        FxDialogs.showInformation(Constantes.TITLE, "Se ejecutará el proceso de CMT");
-        int position = datac.getNombre().lastIndexOf("\\");
-        String workspace = datac.getNombre().substring(0, position);
-        OperationsCMT operations
-                = new OperationsCMT(mwsod, gralinfo, workspace, datac.getNombre());
-        List<String> logs = operations.getLogs();
-        if (!logs.isEmpty()) {
-            try {
-                FxDialogs.showError(Constantes.TITLE,
-                        "Ocurrieron errores durante el proceso");
-                Path path = Paths.get(workspace + "\\wM82\\");
-                Util.makeFileNameds(logs, path, "Errores-mws", ".log");
-            } catch (IOException ex) {
-                FxDialogs.showException(Constantes.TITLE, ex.getMessage(), ex);
+        if (FxDialogs.showConfirm(Constantes.TITLE, 
+                "Se ejecutará el proceso de CMT, ¿Desea continuar?",
+                FxDialogs.YES, FxDialogs.NO).equals(FxDialogs.YES)) {
+            int position = datac.getNombre().lastIndexOf("\\");
+            String workspace = datac.getNombre().substring(0, position);
+            OperationsCMT operations
+                    = new OperationsCMT(mwsod, gralinfo, workspace, datac.getNombre());
+            List<String> logs = operations.getLogs();
+            if (!logs.isEmpty()) {
+                try {
+                    FxDialogs.showError(Constantes.TITLE,
+                            "Ocurrieron errores durante el proceso");
+                    Path path = Paths.get(workspace + "\\wM82\\");
+                    Util.makeFileNameds(logs, path, "Errores-mws", ".log");
+                } catch (IOException ex) {
+                    FxDialogs.showException(Constantes.TITLE, ex.getMessage(), ex);
+                }
             }
+            FxDialogs.showInformation(Constantes.TITLE, "Proceso CMT terminado");
         }
-        FxDialogs.showInformation(Constantes.TITLE, "Proceso CMT terminado");
     }
 
     @Override
@@ -107,7 +110,7 @@ public class Combinaciones implements Combina {
     public void removeDB() {
         if (FxDialogs.showConfirm(Constantes.TITLE,
                 "¿Está seguro de eliminar el registro?\n"
-                + "Sólo se eliminará de la base de datos, no del path",
+                + "(Sólo se eliminará de la base de datos, no del path)",
                 FxDialogs.YES, FxDialogs.NO
         ).equals(FxDialogs.YES)) {
             try {

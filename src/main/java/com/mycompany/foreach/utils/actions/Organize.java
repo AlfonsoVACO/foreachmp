@@ -6,7 +6,6 @@
 package com.mycompany.foreach.utils.actions;
 
 import com.mycompany.foreach.models.MwsPrimary;
-import com.mycompany.foreach.utils.Constantes;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -30,11 +29,11 @@ public class Organize {
         this.main = new ArrayList<>();
     }
 
-    public List<String> getOrganize(int typenode) {
+    public List<String> getOrganize(int typenode, String regex) {
         List<String> tempvec = filterByCols(this.lstcsv);
         for (int i = 0; i < tempvec.size(); i++) {
             String str = tempvec.get(i);
-            if (isInHour(str)) {
+            if (isInHour(str, regex)) {
                 this.mwsod.forEach((itemprim) -> {
                     itemprim.getDisplay().forEach((display) -> {
                         if (display.toLowerCase().contains("memory")) {
@@ -79,10 +78,10 @@ public class Organize {
         return stringbuild.toString();
     }
 
-    private static boolean isInHour(String str) {
+    private static boolean isInHour(String str, String regex) {
         String[] split = str.split(",");
         String formathhmm = split[1].substring(0, split[1].length() - 3);
-        return formathhmm.matches(Constantes.REGEX_STATS);
+        return formathhmm.matches(regex);
     }
 
     private List<String> filterByCols(List<String> lstDatos) {

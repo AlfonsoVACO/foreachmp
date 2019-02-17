@@ -24,8 +24,8 @@ public class Constantes {
     public static final CopyOption[] COPY_OPTIONS = new CopyOption[]{
         StandardCopyOption.REPLACE_EXISTING,
         StandardCopyOption.COPY_ATTRIBUTES};
-    public static final String REGEX_STATS = ".*(:00).*";
-    public static final String REGEX_CMT = ".*(:00:0).*";
+    //public static final String REGEX_STATS = ".*(:00).*";
+    //public static final String REGEX_CMT = ".*(:00:0).*";
     public static final String PATH_ARCHIVES = ".//src//main//resources//archives//";
     public static final String PATH_JSON = ".//src//main//resources//archives//jsonmain.json";
 

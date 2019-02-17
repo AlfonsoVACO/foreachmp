@@ -111,7 +111,7 @@ public class FilesOperations {
             bufferedwriter.flush();
 
             Organize organize = new Organize(itemprim, vecList);
-            List<String> tempvec = organize.getOrganize(version);
+            List<String> tempvec = organize.getOrganize(version, mwsod.getArchives().getFilterstat());
 
             for (int i = 0; i < tempvec.size(); i++) {
                 String str = tempvec.get(i);

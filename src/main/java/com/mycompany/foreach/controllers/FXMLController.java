@@ -15,6 +15,7 @@ import com.mycompany.foreach.utils.Navegacion;
 import com.mycompany.foreach.utils.Util;
 import com.mycompany.foreach.utils.actions.Combinaciones;
 import com.mycompany.foreach.utils.actions.OperationsCMT;
+import com.mycompany.foreach.utils.actions.Server;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
@@ -379,6 +380,13 @@ public class FXMLController implements Initializable {
                 FxDialogs.showException(Constantes.TITLE, ex.getMessage(), ex);
             }
         }
+    }
+    
+    @FXML
+    private void conectaserv(ActionEvent event){
+        Server server = new Server(mwsno, mwsod);
+        server.obtenerXML();
+        server.obtenerStats();
     }
    
 }

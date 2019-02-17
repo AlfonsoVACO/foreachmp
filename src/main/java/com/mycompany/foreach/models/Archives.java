@@ -16,6 +16,7 @@ public class Archives {
     private String onRegex;
     private String toRegex;
     private String filter;
+    private String filterstat;
     private String finalnameArchs;
 
     public List<MwsPrimary> getMwsis() {
@@ -48,6 +49,14 @@ public class Archives {
 
     public void setFilter(String filter) {
         this.filter = filter;
+    }
+
+    public String getFilterstat() {
+        return filterstat;
+    }
+
+    public void setFilterstat(String filterstat) {
+        this.filterstat = filterstat;
     }
 
     public String getFinalnameArchs() {

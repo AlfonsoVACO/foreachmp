@@ -7,6 +7,7 @@ package com.mycompany.foreach.controllers;
 
 import com.mycompany.foreach.utils.Constantes;
 import com.mycompany.foreach.utils.FilesOperations;
+import com.mycompany.foreach.utils.FxDialogs;
 import com.mycompany.foreach.utils.JsonToString;
 import com.mycompany.foreach.utils.Navegacion;
 import java.io.File;
@@ -55,8 +56,12 @@ public class ConfigjsonController implements Initializable {
     
     @FXML
     private void savearch(ActionEvent event) throws IOException{
-        File archivo = Paths.get(Constantes.PATH_JSON).toFile();
-        FilesOperations.writeFileJSON(archivo, codeeditor.getText());
+        if(Paths.get(Constantes.PATH_JSON).toFile().exists()){
+            File archivo = Paths.get(Constantes.PATH_JSON).toFile();
+            FilesOperations.writeFileJSON(archivo, codeeditor.getText());
+        }else
+            FxDialogs.showWarning(Constantes.TITLE, 
+                    "No se puede realizar acción porque no se cargó JSON raíz");
     }
 
 }

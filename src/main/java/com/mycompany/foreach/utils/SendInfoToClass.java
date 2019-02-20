@@ -5,6 +5,7 @@
  */
 package com.mycompany.foreach.utils;
 
+import com.mycompany.foreach.utils.constantes.Constantes;
 import com.mycompany.foreach.models.Archives;
 import com.mycompany.foreach.models.GeneralInfo;
 import com.mycompany.foreach.models.Mws82;

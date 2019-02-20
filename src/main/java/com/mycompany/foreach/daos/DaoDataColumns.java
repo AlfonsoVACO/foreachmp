@@ -7,7 +7,7 @@ package com.mycompany.foreach.daos;
 
 import com.mycompany.foreach.connections.ConnectionLocal;
 import com.mycompany.foreach.models.DataColumns;
-import com.mycompany.foreach.utils.Consultas;
+import com.mycompany.foreach.utils.constantes.Consultas;
 import java.sql.Connection;
 import java.sql.Date;
 import java.sql.PreparedStatement;

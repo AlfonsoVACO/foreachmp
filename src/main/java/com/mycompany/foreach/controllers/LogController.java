@@ -10,11 +10,10 @@ import com.mycompany.foreach.daos.DaoDataColumns;
 import com.mycompany.foreach.models.GeneralInfo;
 import com.mycompany.foreach.models.Mws82;
 import com.mycompany.foreach.models.Mws98;
-import com.mycompany.foreach.utils.Constantes;
+import com.mycompany.foreach.utils.constantes.Constantes;
 import com.mycompany.foreach.utils.FilesOperations;
 import com.mycompany.foreach.utils.FxDialogs;
-import com.mycompany.foreach.utils.Navegacion;
-import com.mycompany.foreach.utils.OpenFrameContents;
+import com.mycompany.foreach.models.Navegacion;
 import com.mycompany.foreach.utils.Util;
 import com.mycompany.foreach.utils.actions.FilesAndDirectory;
 import com.mycompany.foreach.utils.actions.OperationsOD;
@@ -66,7 +65,6 @@ public class LogController implements Initializable {
     public static List<String> vecList = null;
     private String fname;
     private Navegacion nav;
-    private OpenFrameContents openFrame;
 
     public static Mws98 mwsno;
     public static Mws82 mwsod;

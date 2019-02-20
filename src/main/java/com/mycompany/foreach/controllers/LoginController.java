@@ -6,10 +6,10 @@
 package com.mycompany.foreach.controllers;
 
 import com.mycompany.foreach.connections.ConnectionLocal;
-import com.mycompany.foreach.utils.Constantes;
-import com.mycompany.foreach.utils.Consultas;
+import com.mycompany.foreach.utils.constantes.Constantes;
+import com.mycompany.foreach.utils.constantes.Consultas;
 import com.mycompany.foreach.utils.FxDialogs;
-import com.mycompany.foreach.utils.Navegacion;
+import com.mycompany.foreach.models.Navegacion;
 import com.mycompany.foreach.utils.SendInfoToClass;
 import java.io.File;
 import java.io.IOException;

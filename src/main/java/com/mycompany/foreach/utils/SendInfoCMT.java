@@ -5,6 +5,7 @@
  */
 package com.mycompany.foreach.utils;
 
+import com.mycompany.foreach.utils.constantes.Constantes;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;

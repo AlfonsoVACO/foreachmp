@@ -5,6 +5,7 @@
  */
 package com.mycompany.foreach.utils;
 
+import com.mycompany.foreach.utils.constantes.Constantes;
 import com.mycompany.foreach.models.GeneralInfo;
 import java.io.BufferedWriter;
 import java.io.File;

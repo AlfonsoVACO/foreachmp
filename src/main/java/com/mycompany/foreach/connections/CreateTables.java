@@ -5,8 +5,8 @@
  */
 package com.mycompany.foreach.connections;
 
-import com.mycompany.foreach.utils.Constantes;
-import com.mycompany.foreach.utils.Consultas;
+import com.mycompany.foreach.utils.constantes.Constantes;
+import com.mycompany.foreach.utils.constantes.Consultas;
 import com.mycompany.foreach.utils.DerbyUtils;
 import com.mycompany.foreach.utils.FxDialogs;
 import java.sql.Connection;

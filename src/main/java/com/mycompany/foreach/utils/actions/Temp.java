@@ -6,7 +6,7 @@
 package com.mycompany.foreach.utils.actions;
 
 import com.mycompany.foreach.models.JSONTemp;
-import com.mycompany.foreach.utils.Constantes;
+import com.mycompany.foreach.utils.constantes.Constantes;
 import com.mycompany.foreach.utils.FxDialogs;
 import com.mycompany.foreach.utils.Util;
 import java.io.File;

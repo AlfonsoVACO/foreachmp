@@ -5,11 +5,11 @@
  */
 package com.mycompany.foreach.controllers;
 
-import com.mycompany.foreach.utils.Constantes;
+import com.mycompany.foreach.utils.constantes.Constantes;
 import com.mycompany.foreach.utils.FilesOperations;
 import com.mycompany.foreach.utils.FxDialogs;
 import com.mycompany.foreach.utils.JsonToString;
-import com.mycompany.foreach.utils.Navegacion;
+import com.mycompany.foreach.models.Navegacion;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;

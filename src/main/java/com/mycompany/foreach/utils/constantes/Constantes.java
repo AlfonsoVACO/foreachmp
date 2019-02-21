@@ -52,4 +52,10 @@ public class Constantes {
                 .append("\n");
         return stringbuilder.toString();
     }
+    
+    public static String getCausa(){
+        StringBuilder stringbuilder = new StringBuilder();
+        return stringbuilder.append("\n(Se eliminarán cuando cierre la ")
+        .append("aplicación porque aún se están utilizando)").toString();
+    }
 }

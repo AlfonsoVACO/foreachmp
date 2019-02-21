@@ -6,7 +6,9 @@
 package com.mycompany.foreach.utils.actions;
 
 import com.mycompany.foreach.models.JSONTemp;
+import com.mycompany.foreach.utils.FxDialogs;
 import com.mycompany.foreach.utils.Util;
+import com.mycompany.foreach.utils.constantes.Constantes;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -17,8 +19,6 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import java.util.zip.*;
 
 /**
@@ -40,13 +40,15 @@ public class MoveFilesTable {
 
     private void compressXML() {
         compress(this.jsontemp.getXml().getUrl().toString(),
-                "wM98", this.jsontemp.getStats().getExtension());
+                "\\wM98\\","wM98", this.jsontemp.getXml().getExtension());
         setLogs();
+        FxDialogs.showInformation(Constantes.TITLE, "Archivos XML comprimidos");
     }
 
     private void compressLog() {
         this.jsontemp.getStats().getUrls().forEach((path) -> {
-            compress(getRuta(path), getZipName(path), this.jsontemp.getStats().getExtension());
+            compress(path.toString(),getRuta(path), getZipName(path), this.jsontemp.getStats().getExtension());
+            FxDialogs.showInformation(Constantes.TITLE, "Archivo stats en nodo comprimidos");
         });
         setLogs();
     }
@@ -66,12 +68,16 @@ public class MoveFilesTable {
     
     public void deleteXML() {
         deleteFiles(this.jsontemp.getXml().getUrl(), this.jsontemp.getXml().getExtension());
+        FxDialogs.showInformation(Constantes.TITLE, 
+                "Archivos XML eliminados" + Constantes.getCausa());
     }
 
     public void deleteStats() {
         this.jsontemp.getStats().getUrls().forEach((path) -> {
             deleteFiles(path, this.jsontemp.getStats().getExtension());
         });
+        FxDialogs.showInformation(Constantes.TITLE, 
+                "Archivos stats eliminados" + Constantes.getCausa());
     }
 
     private void deleteFiles(Path path, String extension) {
@@ -87,7 +93,7 @@ public class MoveFilesTable {
         if (hasxml) {
             this.logs.add("No hay archivos en esa ruta");
         } else {
-            this.logs.add("Archivos movidos exitosamente");
+            this.logs.add("Archivos procesados exitosamente");
             hasxml = false;
         }
     }
@@ -110,7 +116,7 @@ public class MoveFilesTable {
             List<Path> lstpaths = Util.filterContenido(Files.list(path), extension);
             if (!lstpaths.isEmpty()) {
                 lstpaths.forEach((patharch) -> {
-                    String wkspace = getWorkspace(folder, patharch);
+                    String wkspace = getWorkspaceFile(folder, patharch);
                     this.logs.add("Mover a " + wkspace);
                     patharch.toFile().renameTo(Paths.get(wkspace).toFile());
                 });
@@ -122,9 +128,10 @@ public class MoveFilesTable {
         }
     }
 
-    private void compress(String directorio, String nombrearc, String toext) {
+    private void compress(String from, String to, String nombrearc, String toext) {
         try {
-            File carpeta = new File(directorio);
+            String directorio = getWorkspace(to);
+            File carpeta = new File(from);
             if (carpeta.exists()) {
                 List<Path> lstpaths = Util.filterContenido(Files.list(carpeta.toPath()), toext);
                 ZipOutputStream outputzip = new ZipOutputStream(new FileOutputStream(directorio + nombrearc + ".zip"));
@@ -132,8 +139,9 @@ public class MoveFilesTable {
                     FileInputStream fileinput = null;
                     try {
                         ZipEntry entrada = new ZipEntry(it.toFile().getName());
+                        System.out.println(it.toFile().getName());
                         outputzip.putNextEntry(entrada);
-                        fileinput = new FileInputStream(directorio + entrada.getName());
+                        fileinput = new FileInputStream(from + File.separator + entrada.getName());
                         int leidos;
                         byte[] buffer = new byte[1024];
                         while (0 < (leidos = fileinput.read(buffer))) {
@@ -154,7 +162,13 @@ public class MoveFilesTable {
         }
     }
 
-    private String getWorkspace(String folder, Path patharch) {
+    private String getWorkspace(String folder) {
+        StringBuilder workspace = new StringBuilder();
+        return workspace.append(this.jsontemp.getPath().toString())
+                .append(folder).toString();
+    }
+    
+    private String getWorkspaceFile(String folder, Path patharch) {
         StringBuilder workspace = new StringBuilder();
         return workspace.append(this.jsontemp.getPath().toString())
                 .append(folder)

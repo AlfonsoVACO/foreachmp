@@ -27,10 +27,12 @@ import javafx.scene.input.KeyEvent;
  */
 public class FxDialogs {
 
-    public static final String YES = "Yes";
+    public static final String YES = "Si";
     public static final String NO = "No";
     public static final String OK = "OK";
-    public static final String CANCEL = "Cancel";
+    public static final String CANCEL = "Cancelar";
+    public static final String DELETE = "Eliminar";
+    public static final String MOVE = "Mover";
 
     public static void showInformation(String title, String message) {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);

@@ -133,16 +133,15 @@ public class LogController implements Initializable {
         items.add("Fin del proceso...");
         logList.setItems(items);
 
-        if (FxDialogs.showConfirm(Constantes.TITLE, "¿Desea guardar el log?",
-                FxDialogs.YES, FxDialogs.NO).equals(FxDialogs.YES)) {
-            StringBuilder stringbuilder = new StringBuilder();
-            stringbuilder.append(workspace.toPath().toString()).append("\\");
-            logList.getItems().forEach((str) -> {
-                this.logs.add(str);
-            });
-            Util.makeFileNameds(this.logs,
-                    Paths.get(stringbuilder.toString()), "Log_wM98", ".txt");
-        }
+        StringBuilder stringbuilder = new StringBuilder();
+        stringbuilder.append(workspace.toPath().toString()).append("\\");
+        logList.getItems().forEach((str) -> {
+            this.logs.add(str);
+        });
+        Util.makeFileNameds(this.logs,
+                Paths.get(stringbuilder.toString()), "Log_wM98", ".txt");
+        FxDialogs.showInformation(Constantes.TITLE, "Archivo de logs creado");
+
     }
 
     private void converterTxtToCSV() {
@@ -153,9 +152,9 @@ public class LogController implements Initializable {
             FilesOperations.writeCSVFile(mwsod, data,
                     archivotxt.getPath()
                             .substring(0, archivotxt.getPath().length() - 18)
-                            + File.separator
-                            + nomenclatura
-                            + Calendar.getInstance().getTimeInMillis(), version);
+                    + File.separator
+                    + nomenclatura
+                    + Calendar.getInstance().getTimeInMillis(), version);
             return archivotxt;
         }).forEachOrdered((archivotxt) -> {
             items.add("Convirtiendo > " + archivotxt.getPath()

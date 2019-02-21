@@ -48,7 +48,7 @@ public class Constantes {
                 .append("Ejecutar el proceso de CMT")
                 .append("\n")
                 .append("Ctrl + M => ")
-                .append("Mover los archivos procesados en todo el flujo a sus respectivas carpetas")
+                .append("Crear zip y Mover/Eliminar los archivos procesados en todo el flujo a sus respectivas carpetas")
                 .append("\n");
         return stringbuilder.toString();
     }

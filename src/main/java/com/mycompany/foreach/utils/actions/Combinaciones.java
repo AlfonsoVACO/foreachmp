@@ -44,7 +44,7 @@ public class Combinaciones implements Combina {
 
     @Override
     public void loadcmt() {
-        if (FxDialogs.showConfirm(Constantes.TITLE, 
+        if (FxDialogs.showConfirm(Constantes.TITLE,
                 "Se ejecutará el proceso de CMT, ¿Desea continuar?",
                 FxDialogs.YES, FxDialogs.NO).equals(FxDialogs.YES)) {
             int position = datac.getNombre().lastIndexOf("\\");
@@ -69,19 +69,21 @@ public class Combinaciones implements Combina {
     @Override
     public void execute() {
         if (FxDialogs.showConfirm(Constantes.TITLE,
-                "¿Está seguro de mover todos los archivos?",
+                "Se van a comprimir los archivos procesados, ¿Desea continuar?",
                 FxDialogs.YES, FxDialogs.NO
         ).equals(FxDialogs.YES)) {
             Temp temporal = new Temp();
             Path path = Paths.get(datac.getNombre());
             if (path.toFile().exists()) {
                 JSONTemp objjsom = temporal.readTemp(path.toFile());
-                MoveFilesTable move = new MoveFilesTable(objjsom);
+                MoveFilesTable zip = new MoveFilesTable(objjsom);
+                setMessage(zip);
 
-                FxDialogs.showLongMessage(
-                        Constantes.TITLE,
-                        "Lista de logs al procesar",
-                        move.getLogs());
+                String accion = FxDialogs.showConfirm(Constantes.TITLE,
+                        "¿Qué desea hacer con los archivos a procesar?",
+                        FxDialogs.DELETE, FxDialogs.MOVE, FxDialogs.CANCEL
+                );
+                executeAction(accion, zip);
             } else {
                 FxDialogs.showError(
                         Constantes.TITLE,
@@ -120,6 +122,29 @@ public class Combinaciones implements Combina {
                 FxDialogs.showException(Constantes.TITLE, "Error al eliminar", ex);
             }
         }
+    }
+
+    private void executeAction(String seleccion, MoveFilesTable accion) {
+        switch (seleccion) {
+            case FxDialogs.MOVE:
+                accion.saveLog();
+                accion.saveXML();
+                setMessage(accion);
+                break;
+            case FxDialogs.DELETE:
+                accion.deleteXML();
+                accion.deleteStats();
+                setMessage(accion);
+                break;
+            default:
+                break;
+        }
+    }
+
+    private void setMessage(MoveFilesTable logs) {
+        FxDialogs.showLongMessage(Constantes.TITLE,
+                "Lista de logs al procesar",
+                logs.getLogs());
     }
 
 }

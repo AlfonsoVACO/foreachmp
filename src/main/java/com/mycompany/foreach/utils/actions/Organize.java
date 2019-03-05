@@ -56,7 +56,7 @@ public class Organize {
         stringbuild
                 .append(typenode).append(",")
                 .append(display).append(",")
-                .append("").append(",")
+                .append("=CONVERTIR([@[Max Value]]-[@Free],\"byte\",\"Gibyte\")").append(",")
                 .append(splitcadena[2].trim()).append(",")
                 .append(splitcadena[3].trim()).append(",")
                 .append(splitcadena[0].trim())

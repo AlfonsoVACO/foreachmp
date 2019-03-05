@@ -54,7 +54,7 @@ public class FXMLController implements Initializable {
     @FXML
     private ListView<String> listViewLateral;
     @FXML
-    private StackPane menuIz, panelHead, loadStage, itemreporte;
+    private StackPane menuIz, panelHead, loadStage, itemreporte, itemfindw;
     @FXML
     private AnchorPane panelshadow;
     @FXML
@@ -70,7 +70,7 @@ public class FXMLController implements Initializable {
 
     @FXML
     private final ObservableList<String> listView
-            = FXCollections.observableArrayList("Fin de mes");//, "Configuración"
+            = FXCollections.observableArrayList("Fin de mes", "FCadenas");
     public List<File> archivesToClone;
 
     public static Connection conn;
@@ -94,6 +94,10 @@ public class FXMLController implements Initializable {
 
     public void setStageItemReporte(Node node) {
         itemreporte.getChildren().setAll(node);
+    }
+
+    public void setSatageItemFind(Node node) {
+        itemfindw.getChildren().setAll(node);
     }
 
     private void cargaComboMeses() {
@@ -167,6 +171,11 @@ public class FXMLController implements Initializable {
                 menuIz.setOpacity(100);
             }
             break;
+            case 1: {
+                itemfindw.toFront();
+                itemfindw.setOpacity(100);
+            }
+            break;
         }
         listViewLateral.setOnKeyTyped((KeyEvent event1) -> {
             if (event1.getCharacter() != null) {
@@ -174,6 +183,11 @@ public class FXMLController implements Initializable {
                     case 0: {
                         menuIz.toFront();
                         menuIz.setOpacity(100);
+                    }
+                    break;
+                    case 1: {
+                        itemfindw.toFront();
+                        itemfindw.setOpacity(100);
                     }
                     break;
                 }
@@ -206,7 +220,7 @@ public class FXMLController implements Initializable {
             Combinaciones cmt = new Combinaciones(klik);
             cmt.execute();
         }
-        if(event.getCode() == KeyCode.F1){
+        if (event.getCode() == KeyCode.F1) {
             FxDialogs.showInformation(Constantes.TITLE, Constantes.getMessageInfo());
         }
     }
@@ -380,5 +394,5 @@ public class FXMLController implements Initializable {
             }
         }
     }
-   
+
 }

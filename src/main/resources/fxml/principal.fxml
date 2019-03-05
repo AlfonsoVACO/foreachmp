@@ -82,6 +82,7 @@
                                         <StackPane style="-fx-background-color: black;">
                                             <children>
                                                 <StackPane fx:id="itemreporte" opacity="0.0" prefHeight="150.0" prefWidth="200.0" style="-fx-background-color: black" />
+                                                <StackPane fx:id="itemfindw" opacity="0.0" prefHeight="150.0" prefWidth="200.0" style="-fx-background-color: black" />
                                                 <StackPane fx:id="menuIz" style="-fx-background-color: black;" StackPane.alignment="CENTER">
                                                     <children>
                                                         <Group layoutX="52.0" layoutY="67.0" StackPane.alignment="CENTER">

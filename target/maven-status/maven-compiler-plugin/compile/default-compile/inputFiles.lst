@@ -1,7 +1,6 @@
 C:\Users\6_Delta\Documents\NetBeansProjects\ForEach\src\main\java\com\mycompany\foreach\models\Nodo.java
 C:\Users\6_Delta\Documents\NetBeansProjects\ForEach\src\main\java\com\mycompany\foreach\utils\constantes\Consultas.java
 C:\Users\6_Delta\Documents\NetBeansProjects\ForEach\src\main\java\com\mycompany\foreach\animacion\FadeInTransition.java
-C:\Users\6_Delta\Documents\NetBeansProjects\ForEach\src\main\java\com\mycompany\foreach\controllers\LoginController.java
 C:\Users\6_Delta\Documents\NetBeansProjects\ForEach\src\main\java\com\mycompany\foreach\models\DataColumns.java
 C:\Users\6_Delta\Documents\NetBeansProjects\ForEach\src\main\java\com\mycompany\foreach\models\GeneralInfo.java
 C:\Users\6_Delta\Documents\NetBeansProjects\ForEach\src\main\java\com\mycompany\foreach\models\Combina.java
@@ -19,6 +18,7 @@ C:\Users\6_Delta\Documents\NetBeansProjects\ForEach\src\main\java\com\mycompany\
 C:\Users\6_Delta\Documents\NetBeansProjects\ForEach\src\main\java\com\mycompany\foreach\daos\DaoDataColumns.java
 C:\Users\6_Delta\Documents\NetBeansProjects\ForEach\src\main\java\com\mycompany\foreach\utils\actions\XmlToRun.java
 C:\Users\6_Delta\Documents\NetBeansProjects\ForEach\src\main\java\com\mycompany\foreach\utils\GenerarXLS.java
+C:\Users\6_Delta\Documents\NetBeansProjects\ForEach\src\main\java\com\mycompany\foreach\controllers\FindwordController.java
 C:\Users\6_Delta\Documents\NetBeansProjects\ForEach\src\main\java\com\mycompany\foreach\utils\actions\ReadXML.java
 C:\Users\6_Delta\Documents\NetBeansProjects\ForEach\src\main\java\com\mycompany\foreach\utils\SendInfoToClass.java
 C:\Users\6_Delta\Documents\NetBeansProjects\ForEach\src\main\java\com\mycompany\foreach\animacion\FadeInRightTransition.java
@@ -42,6 +42,7 @@ C:\Users\6_Delta\Documents\NetBeansProjects\ForEach\src\main\java\com\mycompany\
 C:\Users\6_Delta\Documents\NetBeansProjects\ForEach\src\main\java\com\mycompany\foreach\controllers\FXMLController.java
 C:\Users\6_Delta\Documents\NetBeansProjects\ForEach\src\main\java\com\mycompany\foreach\models\MwsPrimary.java
 C:\Users\6_Delta\Documents\NetBeansProjects\ForEach\src\main\java\com\mycompany\foreach\models\PrimaryDir.java
+C:\Users\6_Delta\Documents\NetBeansProjects\ForEach\src\main\java\com\mycompany\foreach\utils\actions\Walking.java
 C:\Users\6_Delta\Documents\NetBeansProjects\ForEach\src\main\java\com\mycompany\foreach\utils\actions\OrganizeCMT.java
 C:\Users\6_Delta\Documents\NetBeansProjects\ForEach\src\main\java\com\mycompany\foreach\utils\actions\Combinaciones.java
 C:\Users\6_Delta\Documents\NetBeansProjects\ForEach\src\main\java\com\mycompany\foreach\utils\actions\MoveFilesTable.java

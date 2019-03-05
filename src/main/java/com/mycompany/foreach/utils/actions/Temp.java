@@ -84,9 +84,9 @@ public class Temp {
     private void getObjStats(JSONObject objstats){
         JSONArray urls = (JSONArray) objstats.get("urls");
         List<Path> lstPath = new ArrayList<>();
-        for(Object itemurl : urls){
+        urls.forEach((itemurl) -> {
             lstPath.add( Paths.get(itemurl.toString()) );
-        }
+        });
         String extension = (String) objstats.get("extension");
         this.jsonTemp.setStats(new JSONTemp.Stats(extension, lstPath) );
     }

@@ -19,6 +19,15 @@ public class Navegacion {
     private String info = "/fxml/info.fxml";
     private String configjson = "/fxml/configjson.fxml";
     private String principal = "/fxml/principal.fxml";
+    private String findstring = "/fxml/findword.fxml";
+
+    public String getFindstring() {
+        return findstring;
+    }
+
+    public void setFindstring(String findstring) {
+        this.findstring = findstring;
+    }
 
     public String getInfo() {
         return info;
@@ -65,4 +74,9 @@ public class Navegacion {
     public static void loadStageItemReporte (String fxml) throws IOException{
         principalController.setStageItemReporte((Node) FXMLLoader.load(Navegacion.class.getResource(fxml)));
     }
+    
+    public static void loadStageFindList (String fxml) throws IOException{
+        principalController.setSatageItemFind((Node) FXMLLoader.load(Navegacion.class.getResource(fxml)));
+    }
+    
 }

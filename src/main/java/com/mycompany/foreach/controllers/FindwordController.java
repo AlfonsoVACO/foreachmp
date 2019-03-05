@@ -26,6 +26,7 @@ import javafx.scene.control.ContextMenu;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
 import javafx.scene.control.MenuItem;
+import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
@@ -44,6 +45,7 @@ public class FindwordController implements Initializable {
     private TextField path, strinput;
     private ObservableList<String> itemspath;
     private ObservableList<String> itemsextends;
+    private boolean[] radios = new boolean[3];
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -112,7 +114,8 @@ public class FindwordController implements Initializable {
                         || ("png".equals(it))
                         || ("pdf".equals(it))).isEmpty();
                 if (extep) {
-                    loistaarchivos = lector.execute(palabra, this.itemsextends, Paths.get(url));
+                    if(!notTrue()) this.radios[0] = true;
+                    loistaarchivos = lector.execute(palabra, this.itemsextends, Paths.get(url), this.radios);
                     if (loistaarchivos.isEmpty()) {
                         FxDialogs.showInformation(Constantes.TITLE, "Ups! ningún archivo encontrado");
                     } else {
@@ -141,6 +144,22 @@ public class FindwordController implements Initializable {
         this.itemsextends.clear();
         this.itemspath.clear();
         this.extensiones.setItems(FXCollections.observableArrayList());
+    }
+    
+    @FXML
+    private void avanzado(ActionEvent event){
+        this.radios = FxDialogs
+                .getRadioDes(Constantes.TITLE, "Opciones avanzadas", 
+                        new RadioButton("Mayusculas y minusculas"),
+                        new RadioButton("Solo minusculas"),
+                        new RadioButton("Solo mayusculas"));
+    }
+    
+    private boolean notTrue(){
+        for(boolean item: this.radios){
+            if(item) return true;
+        }
+        return false;
     }
 
 }

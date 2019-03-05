@@ -16,6 +16,7 @@ import javafx.stage.StageStyle;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 import javafx.scene.input.KeyCode;
@@ -112,6 +113,54 @@ public class FxDialogs {
         }
     }
 
+    public static boolean[] getRadioDes(String title, String message, RadioButton... options) {
+        //ChoiceDialog choice = new ChoiceDialog();
+        //choice.getItems().addAll(options);
+
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.initStyle(StageStyle.UTILITY);
+        alert.setTitle("Control");
+        alert.setHeaderText(title);
+        alert.getDialogPane().addEventFilter(KeyEvent.KEY_PRESSED, (KeyEvent event) -> {
+            if (event.getCode().equals(KeyCode.ENTER)) {
+                event.consume();
+                try {
+                    Robot r = new Robot();
+                    r.keyPress(java.awt.event.KeyEvent.VK_SPACE);
+                    r.keyRelease(java.awt.event.KeyEvent.VK_SPACE);
+                } catch (AWTException e) {
+                }
+            }
+        });
+        
+        for (RadioButton buttons : options) {
+            buttons.setWrapText(true);
+            buttons.setMaxWidth(Double.MAX_VALUE);
+            buttons.setMaxHeight(Double.MAX_VALUE);
+            GridPane.setVgrow(buttons, Priority.ALWAYS);
+            GridPane.setHgrow(buttons, Priority.ALWAYS);
+        }
+        GridPane expContent = new GridPane();
+        expContent.setMaxWidth(Double.MAX_VALUE);
+
+        for (int i = 0; i < options.length; i++) {
+            expContent.add(options[i], 0, i);
+        }
+        alert.getDialogPane().setContent(expContent);//.setExpandableContent(expContent);
+        alert.getButtonTypes().setAll(Arrays.asList(new ButtonType(OK), new ButtonType(CANCEL)));
+        Optional<ButtonType> result = alert.showAndWait();
+        
+        boolean[] itemsel = new boolean[options.length];
+        int i = 0;
+        for (RadioButton buttons : options) {
+            itemsel[i] = buttons.isSelected();
+            i++;
+        }
+        
+        return !result.isPresent() ? new boolean[]{} : itemsel;
+
+    }
+
     public static String showConfirm(String title, String message, String... options) {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.initStyle(StageStyle.UTILITY);
@@ -129,9 +178,9 @@ public class FxDialogs {
                 }
             }
         });
-        if (options == null || options.length == 0)
+        if (options == null || options.length == 0) {
             options = new String[]{OK, CANCEL};
-        
+        }
 
         List<ButtonType> buttons = new ArrayList<>();
         for (String option : options) {
@@ -143,13 +192,13 @@ public class FxDialogs {
         Optional<ButtonType> result = alert.showAndWait();
         return !result.isPresent() ? CANCEL : result.get().getText();
     }
-    
+
     public static void showLongMessage(String title, String message, List<String> cadenax) {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.initStyle(StageStyle.UTILITY);
         alert.setTitle("Información");
         alert.setHeaderText(title);
-        
+
         StringBuilder stringb = new StringBuilder();
         cadenax.forEach((linea) -> {
             stringb.append(linea).append("\n");
@@ -162,11 +211,11 @@ public class FxDialogs {
         textArea.setWrapText(true);
         textArea.setMaxWidth(Double.MAX_VALUE);
         textArea.setMaxHeight(Double.MAX_VALUE);
-        
+
         GridPane.setVgrow(textArea, Priority.ALWAYS);
         GridPane.setHgrow(textArea, Priority.ALWAYS);
         GridPane expContent = new GridPane();
-        
+
         expContent.setMaxWidth(Double.MAX_VALUE);
         expContent.add(label, 0, 0);
         expContent.add(textArea, 0, 1);

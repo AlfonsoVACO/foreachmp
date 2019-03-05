@@ -29,6 +29,7 @@ com\mycompany\foreach\controllers\InfoController.class
 com\mycompany\foreach\animacion\CachedTimelineTransition.class
 com\mycompany\foreach\utils\actions\Organize.class
 com\mycompany\foreach\utils\actions\Temp.class
+com\mycompany\foreach\models\ConfigSearch.class
 com\mycompany\foreach\models\Mws82.class
 com\mycompany\foreach\MainApp.class
 com\mycompany\foreach\utils\DerbyUtils.class

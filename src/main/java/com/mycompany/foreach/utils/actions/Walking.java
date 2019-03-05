@@ -16,7 +16,7 @@ import java.util.*;
  */
 public class Walking {
 
-    public List<String> execute(String palabra, List<String> listaextends, Path start)
+    public List<String> execute(String palabra, List<String> listaextends, Path start, boolean[] config)
             throws IOException {
         final ArrayList<String> listaencuentra = new ArrayList<>();
         Files.walkFileTree(start, new FileVisitor<Path>() {
@@ -32,7 +32,7 @@ public class Walking {
                         .contains("System Volume Information"))) {
                     listaextends.forEach(it -> {
                         if ((file.toString().endsWith("." + (String) it))
-                                && (leerFichero(file, palabra))) {
+                                && (leerFichero(file, palabra, config))) {
                             listaencuentra.add(file.toString());
                         }
                     });
@@ -50,18 +50,28 @@ public class Walking {
                 return FileVisitResult.CONTINUE;
             }
         });
-        
+
         return listaencuentra;
     }
 
-    private boolean leerFichero(Path fichero, String cadena) {
+    private boolean leerFichero(Path fichero, String cadena, boolean[] config) {
         try {
             BufferedReader file = new BufferedReader(new FileReader(fichero.toFile()));
             try {
                 String slinea;
                 while ((slinea = file.readLine()) != null) {
-                    if (slinea.contains(cadena)) {
-                        return true;
+                    if (config[0]) {
+                        if (slinea.contains(cadena)) {
+                            return true;
+                        }
+                    } else if (config[1]) {
+                        if (slinea.toLowerCase().contains(cadena)) {
+                            return true;
+                        }
+                    } else {
+                        if (slinea.toUpperCase().contains(cadena)) {
+                            return true;
+                        }
                     }
                 }
             } catch (IOException localThrowable1) {

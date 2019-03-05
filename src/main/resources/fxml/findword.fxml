@@ -19,7 +19,7 @@
                 <HBox alignment="CENTER_LEFT" nodeOrientation="LEFT_TO_RIGHT" prefHeight="67.0" prefWidth="700.0">
                     <children>
                         <Label text="Ruta:  " translateX="10.0" />
-                        <TextField fx:id="path" alignment="CENTER_RIGHT" editable="false" prefHeight="25.0" prefWidth="541.0" translateX="20.0" />
+                        <TextField fx:id="path" editable="false" prefHeight="25.0" prefWidth="541.0" translateX="20.0" />
                         <Button mnemonicParsing="false" onAction="#examinar" text="Examinar..." translateX="70.0" />
                     </children>
                 </HBox>
@@ -33,13 +33,14 @@
                 </HBox>
                 <HBox prefHeight="263.0" prefWidth="700.0">
                     <children>
-                        <ListView fx:id="paths" onMouseClicked="#onRigthClick" prefHeight="262.0" prefWidth="601.0" translateX="10.0" />
+                        <ListView fx:id="paths" onMouseClicked="#onRigthClick" prefHeight="262.0" prefWidth="637.0" translateX="10.0" />
                         <ListView fx:id="extensiones" prefHeight="200.0" prefWidth="100.0" translateX="20.0" />
                     </children>
                 </HBox>
                 <HBox alignment="CENTER_RIGHT" prefHeight="60.0" prefWidth="700.0">
                     <children>
-                        <Button mnemonicParsing="false" onAction="#clean" text="Limpiar" translateX="-40.0" />
+                  <Button mnemonicParsing="false" onAction="#avanzado" text="Avanzado" translateX="-40.0" />
+                        <Button mnemonicParsing="false" onAction="#clean" text="Limpiar" />
                     </children>
                 </HBox>
             </children>
